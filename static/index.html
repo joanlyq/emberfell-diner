@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#b4532a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Emberfell Diner">
+<title>Emberfell Diner</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍲</text></svg>">
+</head>
+<body>
+<header class="top">
+  <div class="row spread"><div class="brand">🍲 Emberfell Diner</div><select id="lang" aria-label="Recipe language"></select></div>
+  <nav id="tabs">
+    <button data-tab="week" class="on">This week</button>
+    <button data-tab="pantry">Fridge &amp; pantry</button>
+    <button data-tab="shop">Shopping</button>
+    <button data-tab="recipes">Recipes</button>
+    <button data-tab="pets">Pets</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+</header>
+<main id="view"><p class="muted pad">Loading…</p></main>
+<div id="modal" class="modal" hidden><div class="sheet" role="dialog" aria-modal="true"><button class="x" aria-label="Close">×</button><div id="modalBody"></div></div></div>
+<div id="toast" class="toast" hidden></div>
+<script src="pets.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1502 @@
+{
+"dishes/soup/黄瓜皮蛋汤.md": {
+"id": 1,
+"en": "Cucumber and Century Egg Soup"
+},
+"dishes/soup/米粥.md": {
+"id": 2,
+"en": "Congee"
+},
+"dishes/soup/腊八粥.md": {
+"id": 3,
+"en": "Laba Porridge"
+},
+"dishes/soup/罗宋汤.md": {
+"id": 4,
+"en": "Borscht"
+},
+"dishes/soup/小米粥.md": {
+"id": 5,
+"en": "Millet Porridge"
+},
+"dishes/soup/紫菜蛋花汤.md": {
+"id": 6,
+"en": "Seaweed and Egg Drop Soup"
+},
+"dishes/soup/生汆丸子汤.md": {
+"id": 7,
+"en": "Poached Meatball Soup"
+},
+"dishes/soup/皮蛋瘦肉粥.md": {
+"id": 8,
+"en": "Century Egg and Pork Congee"
+},
+"dishes/soup/西红柿鸡蛋汤.md": {
+"id": 9,
+"en": "Tomato and Egg Soup"
+},
+"dishes/soup/金针菇汤.md": {
+"id": 10,
+"en": "Enoki Mushroom Soup"
+},
+"dishes/soup/番茄牛肉蛋花汤.md": {
+"id": 11,
+"en": "Tomato Beef Egg Drop Soup"
+},
+"dishes/soup/奶油蘑菇汤.md": {
+"id": 13,
+"en": "Cream Mushroom Soup"
+},
+"dishes/dessert/胡萝卜甜糕.md": {
+"id": 14,
+"en": "Carrot Sweet Cake"
+},
+"dishes/condiment/油酥.md": {
+"id": 15,
+"en": "Laminated Dough"
+},
+"dishes/condiment/简易版炒糖色.md": {
+"id": 16,
+"en": "Simple Caramelized Sugar Color"
+},
+"dishes/condiment/炸串酱料.md": {
+"id": 17,
+"en": "Fried Skewer Sauce"
+},
+"dishes/condiment/葱油.md": {
+"id": 18,
+"en": "Scallion Oil"
+},
+"dishes/condiment/蒜香酱油.md": {
+"id": 19,
+"en": "Garlic Soy Sauce"
+},
+"dishes/condiment/糖醋汁.md": {
+"id": 20,
+"en": "Sweet and Sour Sauce"
+},
+"dishes/vegetable_dish/印度土豆花菜.md": {
+"id": 21,
+"en": "Indian Potato Cauliflower"
+},
+"dishes/vegetable_dish/陕北熬豆角.md": {
+"id": 23,
+"en": "North Shaanxi Braised Green Beans"
+},
+"dishes/vegetable_dish/凉拌油麦菜.md": {
+"id": 24,
+"en": "Stir-Fried Lettuce (Oil Lettuce)"
+},
+"dishes/vegetable_dish/炒茄子.md": {
+"id": 25,
+"en": "Stir-Fried Eggplant"
+},
+"dishes/vegetable_dish/蒲烧茄子.md": {
+"id": 26,
+"en": "Grilled Eggplant"
+},
+"dishes/vegetable_dish/清炒花菜.md": {
+"id": 27,
+"en": "Stir-fried Cauliflower"
+},
+"dishes/vegetable_dish/皮蛋豆腐.md": {
+"id": 28,
+"en": "Century Egg Tofu"
+},
+"dishes/vegetable_dish/酸辣土豆丝.md": {
+"id": 29,
+"en": "Spicy and Sour Shredded Potatoes"
+},
+"dishes/vegetable_dish/鸡蛋火腿炒黄瓜.md": {
+"id": 30,
+"en": "Stir-fried Egg, Ham, and Cucumber"
+},
+"dishes/vegetable_dish/松仁玉米.md": {
+"id": 31,
+"en": "Pine Nut Corn"
+},
+"dishes/vegetable_dish/油醋爆蛋.md": {
+"id": 32,
+"en": "Oil and Vinegar Braised Eggs"
+},
+"dishes/vegetable_dish/水油焖蔬菜.md": {
+"id": 33,
+"en": "Stewed Vegetables in Water and Oil"
+},
+"dishes/vegetable_dish/金钱蛋.md": {
+"id": 34,
+"en": "Jinqian Egg"
+},
+"dishes/vegetable_dish/家常日本豆腐.md": {
+"id": 35,
+"en": "Home-style Japanese Tofu"
+},
+"dishes/vegetable_dish/脆皮豆腐.md": {
+"id": 36,
+"en": "Crispy Tofu"
+},
+"dishes/vegetable_dish/西红柿炒鸡蛋.md": {
+"id": 37,
+"en": "Stir-fried Tomatoes with Eggs"
+},
+"dishes/vegetable_dish/金针菇日本豆腐煲.md": {
+"id": 38,
+"en": "Enoki Mushroom and Japanese Tofu Stew"
+},
+"dishes/vegetable_dish/葱煎豆腐.md": {
+"id": 39,
+"en": "Pan-fried Tofu with Scallions"
+},
+"dishes/vegetable_dish/红烧茄子.md": {
+"id": 40,
+"en": "Braised Eggplant"
+},
+"dishes/vegetable_dish/印度葫芦丸子.md": {
+"id": 41,
+"en": "Indian Gourd Dumplings"
+},
+"dishes/vegetable_dish/凉拌金针菇.md": {
+"id": 42,
+"en": "Cold Tossed Enoki Mushrooms"
+},
+"dishes/vegetable_dish/凉拌黄瓜.md": {
+"id": 43,
+"en": "Cold Tossed Cucumber"
+},
+"dishes/vegetable_dish/炒青菜.md": {
+"id": 44,
+"en": "Stir-fried Green Vegetables"
+},
+"dishes/vegetable_dish/雷椒皮蛋.md": {
+"id": 45,
+"en": "Preserved Egg with Chili Pepper Skin"
+},
+"dishes/vegetable_dish/蚝油生菜.md": {
+"id": 46,
+"en": "Oyster Sauce Lettuce"
+},
+"dishes/vegetable_dish/凉拌豆腐.md": {
+"id": 47,
+"en": "Chilled Tofu"
+},
+"dishes/vegetable_dish/素炒豆角.md": {
+"id": 48,
+"en": "Stir-Fried Green Beans"
+},
+"dishes/vegetable_dish/清蒸南瓜.md": {
+"id": 49,
+"en": "Steamed Pumpkin"
+},
+"dishes/vegetable_dish/茄子炖土豆.md": {
+"id": 50,
+"en": "Eggplant Stewed with Potatoes"
+},
+"dishes/vegetable_dish/蒜蓉西兰花.md": {
+"id": 51,
+"en": "Garlic Broccoli"
+},
+"dishes/drink/长岛冰茶.md": {
+"id": 52,
+"en": "Long Island Iced Tea"
+},
+"dishes/drink/酸梅汤（半成品加工）.md": {
+"id": 53,
+"en": "Suanmeitang (Semi-Finished Product Processing)"
+},
+"dishes/drink/印度奶茶.md": {
+"id": 54,
+"en": "Indian Milk Tea"
+},
+"dishes/drink/奶茶.md": {
+"id": 55,
+"en": "Milk tea"
+},
+"dishes/drink/Mojito莫吉托.md": {
+"id": 56,
+"en": "Mojito"
+},
+"dishes/drink/B52轰炸机.md": {
+"id": 57,
+"en": "B-52 Bomber"
+},
+"dishes/drink/可乐桶.md": {
+"id": 58,
+"en": "Cola Barrel"
+},
+"dishes/drink/杨枝甘露.md": {
+"id": 59,
+"en": "Mango Pomelo Sago"
+},
+"dishes/drink/牛油果拉西.md": {
+"id": 60,
+"en": "Avocado Lassi"
+},
+"dishes/drink/冬瓜茶.md": {
+"id": 61,
+"en": "Winter Melon Tea"
+},
+"dishes/aquatic/酱炖蟹.md": {
+"id": 62,
+"en": "Braised Crab in Sauce"
+},
+"dishes/aquatic/肉蟹煲.md": {
+"id": 63,
+"en": "Braised Crab with Pork Ribs"
+},
+"dishes/aquatic/红烧鱼.md": {
+"id": 64,
+"en": "Braised Fish in Brown Sauce"
+},
+"dishes/aquatic/微波葱姜黑鳕鱼.md": {
+"id": 65,
+"en": "Microwaved Black Cod with Scallions and Ginger"
+},
+"dishes/aquatic/响油鳝丝.md": {
+"id": 66,
+"en": "Sizzling Eel Shreds"
+},
+"dishes/aquatic/红烧鲤鱼.md": {
+"id": 67,
+"en": "Red-Braised Carp"
+},
+"dishes/aquatic/清蒸生蚝.md": {
+"id": 68,
+"en": "Steamed Oysters"
+},
+"dishes/aquatic/红烧鱼头.md": {
+"id": 69,
+"en": "Braised Fish Head"
+},
+"dishes/aquatic/咖喱炒蟹.md": {
+"id": 70,
+"en": "Curry Stir-fried Crab"
+},
+"dishes/aquatic/水煮鱼.md": {
+"id": 71,
+"en": "Boiled Fish"
+},
+"dishes/breakfast/完美水煮蛋.md": {
+"id": 72,
+"en": "Perfect Boiled Eggs"
+},
+"dishes/breakfast/蛋煎糍粑.md": {
+"id": 73,
+"en": "Pan-fried Rice Cake"
+},
+"dishes/breakfast/茶叶蛋.md": {
+"id": 74,
+"en": "Tea Egg"
+},
+"dishes/breakfast/意式香肠北非蛋.md": {
+"id": 75,
+"en": "Italian Sausage Shakshuka"
+},
+"dishes/breakfast/太阳蛋.md": {
+"id": 76,
+"en": "Sunny-side up egg"
+},
+"dishes/breakfast/溏心蛋.md": {
+"id": 77,
+"en": "Soft-boiled egg"
+},
+"dishes/breakfast/金枪鱼酱三明治.md": {
+"id": 78,
+"en": "Tuna Spread Sandwich"
+},
+"dishes/breakfast/美式炒蛋.md": {
+"id": 79,
+"en": "American-style Scrambled Eggs"
+},
+"dishes/breakfast/牛奶燕麦.md": {
+"id": 80,
+"en": "Milk Oatmeal"
+},
+"dishes/breakfast/吐司果酱.md": {
+"id": 81,
+"en": "Toast with Jam"
+},
+"dishes/breakfast/韩国麻药鸡蛋.md": {
+"id": 82,
+"en": "Korean Anesthetic Eggs"
+},
+"dishes/breakfast/煎饺.md": {
+"id": 83,
+"en": "Pan-fried Dumplings"
+},
+"dishes/breakfast/蒸水蛋.md": {
+"id": 84,
+"en": "Steamed Egg Custard"
+},
+"dishes/breakfast/鸡蛋三明治.md": {
+"id": 85,
+"en": "Egg Sandwich"
+},
+"dishes/breakfast/空气炸锅面包片.md": {
+"id": 86,
+"en": "Air Fryer Bread Slices"
+},
+"dishes/breakfast/微波炉蛋糕.md": {
+"id": 87,
+"en": "Microwave Cake"
+},
+"dishes/breakfast/桂圆红枣粥.md": {
+"id": 88,
+"en": "Longan and Red Date Porridge"
+},
+"dishes/breakfast/手抓饼.md": {
+"id": 89,
+"en": "Hand-grabbed Cake"
+},
+"dishes/breakfast/微波炉蒸蛋.md": {
+"id": 90,
+"en": "Steamed Eggs in a Microwave"
+},
+"dishes/breakfast/微波炉荷包蛋.md": {
+"id": 91,
+"en": "Microwave Poached Egg"
+},
+"dishes/breakfast/水煮玉米.md": {
+"id": 92,
+"en": "Boiled Corn"
+},
+"dishes/breakfast/蒸花卷.md": {
+"id": 93,
+"en": "Steamed Flower Rolls"
+},
+"dishes/breakfast/燕麦鸡蛋饼.md": {
+"id": 94,
+"en": "Oatmeal Egg Pancake"
+},
+"dishes/semi-finished/牛油火锅底料.md": {
+"id": 95,
+"en": "Sichuan Hot Pot Base"
+},
+"dishes/semi-finished/速冻水饺.md": {
+"id": 96,
+"en": "Frozen dumplings"
+},
+"dishes/semi-finished/凉皮.md": {
+"id": 97,
+"en": "Cold Noodle Skin"
+},
+"dishes/semi-finished/半成品意面.md": {
+"id": 98,
+"en": "Semi-finished Pasta"
+},
+"dishes/semi-finished/速冻馄饨.md": {
+"id": 99,
+"en": "Frozen Wontons"
+},
+"dishes/staple/汤面.md": {
+"id": 100,
+"en": "Noodle soup"
+},
+"dishes/staple/炒馍.md": {
+"id": 101,
+"en": "Stir-Fried Steamed Bread"
+},
+"dishes/staple/酸辣蕨根粉.md": {
+"id": 102,
+"en": "Hot and Sour Fern Root Noodles"
+},
+"dishes/staple/利提巧卡.md": {
+"id": 103,
+"en": "Litikoka"
+},
+"dishes/staple/煮泡面加蛋.md": {
+"id": 104,
+"en": "Boil instant noodles and add an egg"
+},
+"dishes/staple/麻辣减脂荞麦面.md": {
+"id": 105,
+"en": "Spicy Low-Carb Buckwheat Noodles"
+},
+"dishes/staple/炸酱面.md": {
+"id": 106,
+"en": "Zha Jiang Mian"
+},
+"dishes/staple/蒸卤面.md": {
+"id": 107,
+"en": "Steamed Braised Noodles"
+},
+"dishes/staple/鲜肉烧卖.md": {
+"id": 108,
+"en": "Fresh Meat Shumai"
+},
+"dishes/staple/鹰嘴豆炸饼.md": {
+"id": 109,
+"en": "Chickpea Fritters"
+},
+"dishes/staple/猪油拌饭.md": {
+"id": 110,
+"en": "Rice Mixed with Lard"
+},
+"dishes/staple/热干面.md": {
+"id": 111,
+"en": "Hot dry noodles"
+},
+"dishes/staple/咸肉菜饭.md": {
+"id": 112,
+"en": "Salted Pork and Vegetable Rice"
+},
+"dishes/staple/蛋包饭.md": {
+"id": 113,
+"en": "Omelette Rice"
+},
+"dishes/staple/红芸豆拌饭.md": {
+"id": 114,
+"en": "Red Kidney Bean Rice"
+},
+"dishes/staple/印度烤饼.md": {
+"id": 115,
+"en": "Indian Flatbread"
+},
+"dishes/staple/韭菜盒子.md": {
+"id": 116,
+"en": "Chinese Chive Pockets"
+},
+"dishes/staple/老干妈拌面.md": {
+"id": 117,
+"en": "Laoganma Noodles"
+},
+"dishes/staple/可乐炒饭.md": {
+"id": 118,
+"en": "Cola Fried Rice"
+},
+"dishes/staple/蛋炒饭.md": {
+"id": 119,
+"en": "Egg Fried Rice"
+},
+"dishes/staple/葱油拌面.md": {
+"id": 120,
+"en": "Scallion Oil Noodles"
+},
+"dishes/staple/炒河粉.md": {
+"id": 121,
+"en": "Stir-Fried Rice Noodles"
+},
+"dishes/staple/麻油拌面.md": {
+"id": 123,
+"en": "Sesame Oil Noodles"
+},
+"dishes/staple/肉蛋盖饭.md": {
+"id": 124,
+"en": "Meat and Egg Rice Bowl"
+},
+"dishes/staple/照烧鸡腿饭.md": {
+"id": 125,
+"en": "Teriyaki Chicken Rice"
+},
+"dishes/staple/手工水饺.md": {
+"id": 126,
+"en": "Handmade Dumplings"
+},
+"dishes/staple/螺蛳粉.md": {
+"id": 127,
+"en": "Luosifen"
+},
+"dishes/staple/印度焖饭.md": {
+"id": 128,
+"en": "Indian Pilaf"
+},
+"dishes/staple/醪糟小汤圆.md": {
+"id": 129,
+"en": "Fermented Rice Glutinous Rice Balls"
+},
+"dishes/staple/炒年糕.md": {
+"id": 130,
+"en": "Fried Rice Cakes"
+},
+"dishes/meat_dish/鱼香肉丝.md": {
+"id": 131,
+"en": "Shredded Pork in Garlic Sauce"
+},
+"dishes/meat_dish/乡村啤酒鸭.md": {
+"id": 132,
+"en": "Rural Beer Duck"
+},
+"dishes/meat_dish/红烧鸡翅.md": {
+"id": 133,
+"en": "Braised Chicken Wings"
+},
+"dishes/meat_dish/孜然牛肉.md": {
+"id": 134,
+"en": "Cumin Beef"
+},
+"dishes/meat_dish/杀猪菜.md": {
+"id": 135,
+"en": "Pig Slaughter Stew"
+},
+"dishes/meat_dish/小炒肉.md": {
+"id": 137,
+"en": "Stir-Fried Pork"
+},
+"dishes/meat_dish/椒盐排条.md": {
+"id": 138,
+"en": "Salt and Pepper Pork Chops"
+},
+"dishes/meat_dish/烤鸡翅.md": {
+"id": 139,
+"en": "Roasted Chicken Wings"
+},
+"dishes/meat_dish/咕噜肉.md": {
+"id": 140,
+"en": "Crispy Pork Balls"
+},
+"dishes/meat_dish/番茄红酱.md": {
+"id": 141,
+"en": "Tomato Red Sauce"
+},
+"dishes/meat_dish/腐乳肉.md": {
+"id": 142,
+"en": "Fermented Tofu Pork"
+},
+"dishes/meat_dish/猪肉烩酸菜.md": {
+"id": 143,
+"en": "Pork Stewed with Sauerkraut"
+},
+"dishes/meat_dish/虎皮肘子.md": {
+"id": 144,
+"en": "Tiger-Skin Braised Pork Knuckle"
+},
+"dishes/meat_dish/山西过油肉.md": {
+"id": 145,
+"en": "Shanxi Guoyou Rou"
+},
+"dishes/meat_dish/带把肘子.md": {
+"id": 146,
+"en": "Pork Knuckle with a Handle"
+},
+"dishes/meat_dish/肉饼炖蛋.md": {
+"id": 147,
+"en": "Meat Patty Stewed with Egg"
+},
+"dishes/meat_dish/甜辣烤全翅.md": {
+"id": 148,
+"en": "Sweet and Spicy Roasted Whole Wings"
+},
+"dishes/meat_dish/糖醋里脊.md": {
+"id": 149,
+"en": "Sweet and Sour Pork Tenderloin"
+},
+"dishes/meat_dish/商芝肉.md": {
+"id": 150,
+"en": "Squirrel Meat"
+},
+"dishes/meat_dish/小酥肉.md": {
+"id": 151,
+"en": "Crispy Pork"
+},
+"dishes/meat_dish/白菜猪肉炖粉条.md": {
+"id": 152,
+"en": "Stewed Napa Cabbage, Pork, and Glass Noodles"
+},
+"dishes/meat_dish/黄油鸡.md": {
+"id": 153,
+"en": "Butter Chicken"
+},
+"dishes/meat_dish/蒜苔炒肉末.md": {
+"id": 154,
+"en": "Stir-Fried Minced Pork with Garlic Scapes"
+},
+"dishes/meat_dish/麻辣香锅.md": {
+"id": 155,
+"en": "Mala Xiang Guo (Spicy Hot Pot)"
+},
+"dishes/meat_dish/水煮肉片.md": {
+"id": 156,
+"en": "Boiled Sliced Pork"
+},
+"dishes/meat_dish/萝卜炖羊排.md": {
+"id": 157,
+"en": "Braised Lamb Ribs with Radish"
+},
+"dishes/meat_dish/豉汁排骨.md": {
+"id": 158,
+"en": "Soy Sauce Pork Ribs"
+},
+"dishes/meat_dish/粉蒸肉.md": {
+"id": 159,
+"en": "Steamed Pork with Rice Flour"
+},
+"dishes/meat_dish/冷吃兔.md": {
+"id": 160,
+"en": "Cold-Eaten Rabbit"
+},
+"dishes/meat_dish/尖椒炒牛肉.md": {
+"id": 161,
+"en": "Stir-Fried Beef with Green Chili Peppers"
+},
+"dishes/meat_dish/意式烤鸡.md": {
+"id": 162,
+"en": "Italian Roast Chicken"
+},
+"dishes/meat_dish/黄瓜炒肉.md": {
+"id": 163,
+"en": "Stir-fried Cucumber with Meat"
+},
+"dishes/meat_dish/辣椒炒肉.md": {
+"id": 164,
+"en": "Stir-Fried Pork with Chili Peppers"
+},
+"dishes/meat_dish/黄焖鸡.md": {
+"id": 165,
+"en": "Braised Chicken"
+},
+"dishes/meat_dish/小米辣炒肉.md": {
+"id": 166,
+"en": "Stir-Fried Pork with Little Chilies"
+},
+"dishes/meat_dish/洋葱炒猪肉.md": {
+"id": 167,
+"en": "Stir-fried Pork with Onions"
+},
+"dishes/meat_dish/蚂蚁上树.md": {
+"id": 168,
+"en": "Climbing the Tree"
+},
+"dishes/meat_dish/香干肉丝.md": {
+"id": 169,
+"en": "Shredded Pork with Dried Tofu"
+},
+"dishes/meat_dish/可乐鸡翅.md": {
+"id": 170,
+"en": "Cola Chicken Wings"
+},
+"dishes/soup/羊肉汤/羊肉汤.md": {
+"id": 171,
+"en": "Lamb Soup"
+},
+"dishes/soup/勾芡香菇汤/勾芡香菇汤.md": {
+"id": 172,
+"en": "Starch-Thickened Shiitake Mushroom Soup"
+},
+"dishes/soup/排骨苦瓜汤/排骨苦瓜汤.md": {
+"id": 173,
+"en": "Pork Rib and Bitter Melon Soup"
+},
+"dishes/soup/菌菇炖乳鸽/菌菇炖乳鸽.md": {
+"id": 174,
+"en": "Stewed Pigeon with Mushrooms"
+},
+"dishes/soup/银耳莲子粥/银耳莲子粥.md": {
+"id": 175,
+"en": "Tremella and Lotus Seed Porridge"
+},
+"dishes/soup/排骨山药玉米汤/排骨山药玉米汤.md": {
+"id": 176,
+"en": "Pork Rib, Chinese Yam, and Corn Soup"
+},
+"dishes/soup/朱雀汤/朱雀汤.md": {
+"id": 177,
+"en": "Vermilion Bird Soup"
+},
+"dishes/soup/昂刺鱼豆腐汤/昂刺鱼豆腐汤.md": {
+"id": 178,
+"en": "Soft-shell Turtle Soup with Tofu"
+},
+"dishes/soup/陈皮排骨汤/陈皮排骨汤.md": {
+"id": 179,
+"en": "Pork Rib Soup with Dried Tangerine Peel"
+},
+"dishes/soup/玉米排骨汤/玉米排骨汤.md": {
+"id": 180,
+"en": "Corn and Pork Ribs Soup"
+},
+"dishes/template/示例菜/示例菜.md": {
+"id": 181,
+"en": "Sample Dish"
+},
+"dishes/dessert/红柚蛋糕/红柚蛋糕.md": {
+"id": 182,
+"en": "Red Pomelo Cake"
+},
+"dishes/dessert/烤箱版巴斯克芝士蛋糕/烤箱版巴斯克芝士蛋糕.md": {
+"id": 183,
+"en": "Oven-Baked Basque Cheesecake"
+},
+"dishes/dessert/无厨师机蜂蜜面包/无厨师机蜂蜜面包.md": {
+"id": 184,
+"en": "Honey Bread Without a Stand Mixer"
+},
+"dishes/dessert/烤蛋挞/烤蛋挞.md": {
+"id": 185,
+"en": "Baked Egg Tarts"
+},
+"dishes/dessert/雪花酥/雪花酥.md": {
+"id": 186,
+"en": "Snowflake Crisp"
+},
+"dishes/dessert/酸奶意式奶冻/酸奶意式奶冻.md": {
+"id": 187,
+"en": "Yogurt Panna Cotta"
+},
+"dishes/dessert/草莓冰淇淋/草莓冰淇淋.md": {
+"id": 188,
+"en": "Strawberry Ice Cream"
+},
+"dishes/dessert/反沙芋头/反沙芋头.md": {
+"id": 189,
+"en": "Fried Taro"
+},
+"dishes/dessert/龟苓膏/龟苓膏.md": {
+"id": 190,
+"en": "Guilinggao"
+},
+"dishes/dessert/戚风蛋糕/戚风蛋糕.md": {
+"id": 191,
+"en": "Chiffon Cake"
+},
+"dishes/dessert/芋泥雪媚娘/芋泥雪媚娘.md": {
+"id": 192,
+"en": "Taro Snow Skin Mochi"
+},
+"dishes/dessert/炸鲜奶/炸鲜奶.md": {
+"id": 193,
+"en": "Fried Fresh Milk"
+},
+"dishes/dessert/英式司康/英式司康.md": {
+"id": 194,
+"en": "British Scone"
+},
+"dishes/dessert/提拉米苏/提拉米苏.md": {
+"id": 195,
+"en": "Tiramisu"
+},
+"dishes/dessert/魔芋蛋糕/魔芋蛋糕.md": {
+"id": 196,
+"en": "Konjac Cake"
+},
+"dishes/dessert/玛格丽特饼干/玛格丽特饼干.md": {
+"id": 197,
+"en": "Margaret Cookies"
+},
+"dishes/dessert/奥利奥冰淇淋/奥利奥冰淇淋.md": {
+"id": 198,
+"en": "Oreo Ice Cream"
+},
+"dishes/dessert/咖啡椰奶冻/咖啡椰奶冻.md": {
+"id": 199,
+"en": "Coffee Coconut Panna Cotta"
+},
+"dishes/condiment/油泼辣子/油泼辣子.md": {
+"id": 200,
+"en": "Chili Oil"
+},
+"dishes/condiment/草莓酱/草莓酱.md": {
+"id": 201,
+"en": "Strawberry Jam"
+},
+"dishes/condiment/蔗糖糖浆/蔗糖糖浆.md": {
+"id": 202,
+"en": "Sucrose syrup"
+},
+"dishes/vegetable_dish/西葫芦炒鸡蛋/西葫芦炒鸡蛋.md": {
+"id": 203,
+"en": "Stir-Fried Zucchini with Eggs"
+},
+"dishes/vegetable_dish/糖拌西红柿/糖拌西红柿.md": {
+"id": 204,
+"en": "Tomato Salad with Sugar"
+},
+"dishes/vegetable_dish/莴笋叶煎饼/莴笋叶煎饼.md": {
+"id": 205,
+"en": "Celtuce Leaf Pancakes"
+},
+"dishes/vegetable_dish/鸡蛋花/鸡蛋花.md": {
+"id": 206,
+"en": "Plumeria"
+},
+"dishes/vegetable_dish/虎皮青椒/虎皮青椒.md": {
+"id": 207,
+"en": "Tiger-Skin Green Peppers"
+},
+"dishes/vegetable_dish/凉拌木耳/凉拌木耳.md": {
+"id": 208,
+"en": "Cold Tossed Wood Ear Mushrooms"
+},
+"dishes/vegetable_dish/上汤娃娃菜/上汤娃娃菜.md": {
+"id": 209,
+"en": "Baby Cabbage in Superior Broth"
+},
+"dishes/vegetable_dish/烤茄子/烤茄子.md": {
+"id": 210,
+"en": "Grilled Eggplant"
+},
+"dishes/vegetable_dish/蚝油三鲜菇/蚝油三鲜菇.md": {
+"id": 211,
+"en": "Oyster Sauce with Three Delicacies Mushrooms"
+},
+"dishes/vegetable_dish/鸡蛋羹/蒸箱鸡蛋羹.md": {
+"id": 212,
+"en": "Steamed Egg Custard"
+},
+"dishes/vegetable_dish/鸡蛋羹/鸡蛋羹.md": {
+"id": 213,
+"en": "Steamed Egg Custard"
+},
+"dishes/vegetable_dish/鸡蛋羹/微波炉鸡蛋羹.md": {
+"id": 214,
+"en": "Microwaved Egg Custard"
+},
+"dishes/vegetable_dish/红烧冬瓜/红烧冬瓜.md": {
+"id": 215,
+"en": "Braised Winter Melon"
+},
+"dishes/vegetable_dish/芹菜拌茶树菇/芹菜拌茶树菇.md": {
+"id": 216,
+"en": "Celery with Tea Tree Mushrooms"
+},
+"dishes/vegetable_dish/拔丝土豆/拔丝土豆.md": {
+"id": 217,
+"en": "Caramelized Potatoes"
+},
+"dishes/vegetable_dish/椒盐玉米/椒盐玉米.md": {
+"id": 218,
+"en": "Salt and Pepper Corn"
+},
+"dishes/vegetable_dish/西红柿豆腐汤羹/西红柿豆腐汤羹.md": {
+"id": 219,
+"en": "Tomato and Tofu Soup"
+},
+"dishes/vegetable_dish/手撕包菜/手撕包菜.md": {
+"id": 220,
+"en": "Hand-Torn Cabbage"
+},
+"dishes/vegetable_dish/榄菜肉末四季豆/榄菜肉末四季豆.md": {
+"id": 221,
+"en": "Stir-Fried Green Beans with Minced Pork and Preserved Olive Vegetables"
+},
+"dishes/vegetable_dish/凉拌莴笋/凉拌莴笋.md": {
+"id": 222,
+"en": "Cold-dressed Cucumber"
+},
+"dishes/vegetable_dish/洋葱炒鸡蛋/洋葱炒鸡蛋.md": {
+"id": 223,
+"en": "Stir-fried Eggs with Onions"
+},
+"dishes/vegetable_dish/炒滑蛋/炒滑蛋.md": {
+"id": 224,
+"en": "Silky Scrambled Eggs"
+},
+"dishes/vegetable_dish/包菜炒鸡蛋粉丝/包菜炒鸡蛋粉丝.md": {
+"id": 225,
+"en": "Stir-fried Cabbage with Eggs and Vermicelli"
+},
+"dishes/vegetable_dish/蒜蓉空心菜/蒜蓉空心菜.md": {
+"id": 226,
+"en": "Garlic Stir-fried Water Spinach"
+},
+"dishes/vegetable_dish/话梅煮毛豆/话梅煮毛豆.md": {
+"id": 227,
+"en": "Edamame Boiled with Preserved Plums"
+},
+"dishes/vegetable_dish/白灼菜心/白灼菜心.md": {
+"id": 228,
+"en": "Blanched Choy Sum"
+},
+"dishes/vegetable_dish/小炒藕丁/小炒藕丁.md": {
+"id": 229,
+"en": "Stir-Fried Lotus Root Dices"
+},
+"dishes/vegetable_dish/干锅花菜/干锅花菜.md": {
+"id": 230,
+"en": "Dry-Fried Flowering Cabbage"
+},
+"dishes/vegetable_dish/菠菜炒鸡蛋/菠菜炒鸡蛋.md": {
+"id": 231,
+"en": "Stir-fried Eggs with Spinach"
+},
+"dishes/drink/酒酿醪糟/酒酿醪糟.md": {
+"id": 232,
+"en": "Sweet fermented rice wine"
+},
+"dishes/drink/金菲士/金菲士.md": {
+"id": 233,
+"en": "Ginfits"
+},
+"dishes/drink/酸梅汤/酸梅汤.md": {
+"id": 234,
+"en": "Suanmeitang (Sour Plum Drink)"
+},
+"dishes/drink/奇异果菠菜特调/奇异果菠菜特调.md": {
+"id": 235,
+"en": "Kiwi and Spinach Special Blend"
+},
+"dishes/drink/菠萝咖啡特调/菠萝咖啡特调.md": {
+"id": 236,
+"en": "Pineapple Coffee Special Blend"
+},
+"dishes/drink/耙耙柑茶/耙耙柑茶.md": {
+"id": 237,
+"en": "Soft-Peel Mandarin Tea"
+},
+"dishes/drink/泰国手标红茶/泰国手标红茶.md": {
+"id": 238,
+"en": "Thai Hand Brand Red Tea"
+},
+"dishes/drink/金汤力/金汤力.md": {
+"id": 239,
+"en": "gin and tonic"
+},
+"dishes/drink/海边落日/海边落日.md": {
+"id": 240,
+"en": "Sunset by the Sea"
+},
+"dishes/drink/柠檬水/柠檬水.md": {
+"id": 241,
+"en": "Lemonade"
+},
+"dishes/drink/冰粉/冰粉.md": {
+"id": 242,
+"en": "Ice Jelly"
+},
+"dishes/drink/砂糖椰子冰沙/砂糖椰子冰沙.md": {
+"id": 243,
+"en": "Sugar Palm Coconut Smoothie"
+},
+"dishes/drink/百香果橙子特调/百香果橙子特调.md": {
+"id": 244,
+"en": "Passion Fruit and Orange Special Blend"
+},
+"dishes/aquatic/葱烧海参/葱烧海参.md": {
+"id": 245,
+"en": "Braised Sea Cucumber with Scallions"
+},
+"dishes/aquatic/清蒸鲈鱼/清蒸鲈鱼.md": {
+"id": 246,
+"en": "Steamed Sea Bass"
+},
+"dishes/aquatic/小龙虾/小龙虾.md": {
+"id": 247,
+"en": "Crayfish"
+},
+"dishes/aquatic/黄油煎虾/黄油煎虾.md": {
+"id": 248,
+"en": "Butter-Fried Shrimp"
+},
+"dishes/aquatic/白灼虾/白灼虾.md": {
+"id": 249,
+"en": "Poached Shrimp"
+},
+"dishes/aquatic/干煎阿根廷红虾/干煎阿根廷红虾.md": {
+"id": 250,
+"en": "Pan-Fried Argentine Red Shrimp"
+},
+"dishes/aquatic/鲤鱼炖白菜/鲤鱼炖白菜.md": {
+"id": 251,
+"en": "Braised Carp with Chinese Cabbage"
+},
+"dishes/aquatic/香煎翘嘴鱼/香煎翘嘴鱼.md": {
+"id": 252,
+"en": "Pan-Fried Topmouth Culter"
+},
+"dishes/aquatic/鳊鱼炖豆腐/鳊鱼炖豆腐.md": {
+"id": 253,
+"en": "Bream Stewed with Tofu"
+},
+"dishes/aquatic/葱油桂鱼/葱油桂鱼.md": {
+"id": 254,
+"en": "Scented Oil Mandarin Fish"
+},
+"dishes/aquatic/油焖大虾/油焖大虾.md": {
+"id": 255,
+"en": "Braised Shrimp in Sauce"
+},
+"dishes/aquatic/蒜香黄油虾/蒜香黄油虾.md": {
+"id": 256,
+"en": "Garlic Butter Shrimp"
+},
+"dishes/aquatic/糖醋鲤鱼/糖醋鲤鱼.md": {
+"id": 257,
+"en": "Sweet and Sour Carp"
+},
+"dishes/aquatic/蒜蓉虾/蒜蓉虾.md": {
+"id": 258,
+"en": "Garlic Shrimp"
+},
+"dishes/aquatic/混合烤鱼/烤鱼.md": {
+"id": 259,
+"en": "Grilled Fish"
+},
+"dishes/aquatic/芥末黄油罗氏虾/芥末黄油罗氏虾.md": {
+"id": 260,
+"en": "Mustard Butter Giant Freshwater Prawns"
+},
+"dishes/aquatic/蛏抱蛋/蛏抱蛋.md": {
+"id": 261,
+"en": "Razor Clams with Egg"
+},
+"dishes/breakfast/温泉蛋/温泉蛋.md": {
+"id": 262,
+"en": "Soft-boiled egg"
+},
+"dishes/breakfast/苏格兰蛋/苏格兰蛋.md": {
+"id": 263,
+"en": "Scottish Egg"
+},
+"dishes/semi-finished/速冻汤圆/速冻汤圆.md": {
+"id": 264,
+"en": "Quick-frozen Tangyuan"
+},
+"dishes/semi-finished/炸薯条/炸薯条.md": {
+"id": 265,
+"en": "French Fries"
+},
+"dishes/semi-finished/空气炸锅羊排/空气炸锅羊排.md": {
+"id": 266,
+"en": "Air Fryer Lamb Chops"
+},
+"dishes/semi-finished/空气炸锅鸡翅中/空气炸锅鸡翅中.md": {
+"id": 267,
+"en": "Air Fryer Chicken Wings"
+},
+"dishes/semi-finished/懒人蛋挞/懒人蛋挞.md": {
+"id": 268,
+"en": "Lazy Egg Tart"
+},
+"dishes/staple/西红柿鸡蛋挂面/西红柿鸡蛋挂面.md": {
+"id": 269,
+"en": "Egg and Tomato Noodles"
+},
+"dishes/staple/披萨饼皮/披萨饼皮.md": {
+"id": 270,
+"en": "Pizza crust"
+},
+"dishes/staple/米饭/煮锅蒸米饭.md": {
+"id": 271,
+"en": "Steam rice in a pot"
+},
+"dishes/staple/米饭/电饭煲蒸米饭.md": {
+"id": 272,
+"en": "Cooking Rice in a Rice Cooker"
+},
+"dishes/staple/茄子肉煎饼/茄子肉煎饼.md": {
+"id": 273,
+"en": "Eggplant and Meat Pancake"
+},
+"dishes/staple/酱拌荞麦面/酱拌荞麦面.md": {
+"id": 274,
+"en": "Sesame-Soy Sauce Buckwheat Noodles"
+},
+"dishes/staple/电饭煲三文鱼炊饭/电饭煲三文鱼炊饭.md": {
+"id": 275,
+"en": "Salmon Rice Cooker Dish"
+},
+"dishes/staple/日式咖喱饭/日式咖喱饭.md": {
+"id": 276,
+"en": "Japanese Curry Rice"
+},
+"dishes/staple/空气炸锅照烧鸡饭/空气炸锅照烧鸡饭.md": {
+"id": 277,
+"en": "Air Fryer Teriyaki Chicken Rice"
+},
+"dishes/staple/日式肥牛丼饭/日式肥牛丼饭.md": {
+"id": 278,
+"en": "Japanese Beef Bowl"
+},
+"dishes/staple/意式肉酱面/意式肉酱面.md": {
+"id": 279,
+"en": "Spaghetti Bolognese"
+},
+"dishes/staple/扬州炒饭/扬州炒饭.md": {
+"id": 280,
+"en": "Yangzhou Fried Rice"
+},
+"dishes/staple/炒凉粉/炒凉粉.md": {
+"id": 281,
+"en": "Stir-Fried Liangfen"
+},
+"dishes/staple/烙饼/烙饼.md": {
+"id": 282,
+"en": "Pan Cake"
+},
+"dishes/staple/鲣鱼海苔玉米饭/鲣鱼海苔玉米饭.md": {
+"id": 283,
+"en": "Bonito Nori Corn Rice"
+},
+"dishes/staple/老友猪肉粉/老友猪肉粉.md": {
+"id": 284,
+"en": "Old Friend Pork Rice Noodles"
+},
+"dishes/staple/中式馅饼/中式馅饼.md": {
+"id": 285,
+"en": "Chinese-Style Pie"
+},
+"dishes/staple/凉粉/凉粉.md": {
+"id": 286,
+"en": "Liangfen"
+},
+"dishes/staple/烧饼/芝麻烧饼.md": {
+"id": 287,
+"en": "Sesame Seed Flatbread"
+},
+"dishes/staple/微波炉腊肠煲仔饭/微波炉腊肠煲仔饭.md": {
+"id": 288,
+"en": "Microwaved Chinese Sausage Clay Pot Rice"
+},
+"dishes/staple/基础牛奶面包/基础牛奶面包.md": {
+"id": 289,
+"en": "Basic Milk Bread"
+},
+"dishes/staple/炒意大利面/炒意大利面.md": {
+"id": 290,
+"en": "Stir-Fried Pasta"
+},
+"dishes/staple/火腿饭团/火腿饭团.md": {
+"id": 291,
+"en": "Ham Rice Ball"
+},
+"dishes/staple/陕西油泼面/陕西油泼面.md": {
+"id": 292,
+"en": "Shaanxi Oil-Splashed Noodles"
+},
+"dishes/staple/韩式拌饭/韩式拌饭.md": {
+"id": 293,
+"en": "Korean Bibimbap"
+},
+"dishes/staple/豆角焖面/豆角焖面.md": {
+"id": 294,
+"en": "Braised Noodles with Green Beans"
+},
+"dishes/staple/河南蒸面条/河南蒸面条.md": {
+"id": 295,
+"en": "Henan Steamed Noodles"
+},
+"dishes/meat_dish/豆豉鲮鱼油麦菜/豆豉鲮鱼油麦菜.md": {
+"id": 296,
+"en": "Canned Sardines with Black Bean Sauce and Lettuce"
+},
+"dishes/meat_dish/奶酪培根通心粉/奶酪培根通心粉.md": {
+"id": 297,
+"en": "Bacon Mac and Cheese"
+},
+"dishes/meat_dish/小炒黄牛肉/小炒黄牛肉.md": {
+"id": 298,
+"en": "Stir-fried Yellow Beef"
+},
+"dishes/meat_dish/宫保鸡丁/宫保鸡丁.md": {
+"id": 299,
+"en": "Kung Pao Chicken"
+},
+"dishes/meat_dish/瘦肉土豆片/瘦肉土豆片.md": {
+"id": 300,
+"en": "Lean Pork with Potato Slices"
+},
+"dishes/meat_dish/荔枝肉/荔枝肉.md": {
+"id": 301,
+"en": "Lychee Pork"
+},
+"dishes/meat_dish/香菇滑鸡/香菇滑鸡.md": {
+"id": 302,
+"en": "Sliced Chicken with Shiitake Mushrooms"
+},
+"dishes/meat_dish/冬瓜酿肉/冬瓜酿肉.md": {
+"id": 303,
+"en": "Stuffed Winter Melon"
+},
+"dishes/meat_dish/台式卤肉饭/台式卤肉饭.md": {
+"id": 304,
+"en": "Taiwanese Braised Pork Rice"
+},
+"dishes/meat_dish/猪皮冻/猪皮冻.md": {
+"id": 305,
+"en": "Pork Skin Jelly"
+},
+"dishes/meat_dish/湖南家常红烧肉/湖南家常红烧肉.md": {
+"id": 306,
+"en": "Hunan-Style Home-Style Braised Pork Belly"
+},
+"dishes/meat_dish/土豆炖排骨/土豆炖排骨.md": {
+"id": 307,
+"en": "Braised Pork Ribs with Potatoes"
+},
+"dishes/meat_dish/老式锅包肉/老式锅包肉.md": {
+"id": 308,
+"en": "Old-Style Guobaorou"
+},
+"dishes/meat_dish/麻婆豆腐/麻婆豆腐.md": {
+"id": 309,
+"en": "Mapo Tofu"
+},
+"dishes/meat_dish/糖醋排骨/糖醋排骨.md": {
+"id": 310,
+"en": "Sweet and Sour Ribs"
+},
+"dishes/meat_dish/西红柿土豆炖牛肉/西红柿土豆炖牛肉.md": {
+"id": 311,
+"en": "Stewed Beef with Tomatoes and Potatoes"
+},
+"dishes/meat_dish/荷兰豆炒腊肠/荷兰豆炒腊肠.md": {
+"id": 312,
+"en": "Stir-fried Snow Peas with Chinese Sausage"
+},
+"dishes/meat_dish/芥末罗氏虾/芥末罗氏虾.md": {
+"id": 313,
+"en": "Wasabi Roasted Prawns"
+},
+"dishes/meat_dish/干煸仔鸡/干煸仔鸡.md": {
+"id": 314,
+"en": "Stir-Fried Chicken Tenders"
+},
+"dishes/meat_dish/农家一碗香/农家一碗香.md": {
+"id": 315,
+"en": "A Bowl of Fragrance from the Farmhouse"
+},
+"dishes/meat_dish/咖喱肥牛/咖喱肥牛.md": {
+"id": 316,
+"en": "Curry Beef"
+},
+"dishes/meat_dish/姜炒鸡/姜炒鸡.md": {
+"id": 317,
+"en": "Stir-fried Chicken with Ginger"
+},
+"dishes/meat_dish/凉拌鸡丝/凉拌鸡丝.md": {
+"id": 318,
+"en": "Cold Shredded Chicken Salad"
+},
+"dishes/meat_dish/青椒土豆炒肉/青椒土豆炒肉.md": {
+"id": 319,
+"en": "Stir-fried Green Peppers, Potatoes, and Meat"
+},
+"dishes/meat_dish/水煮牛肉/水煮牛肉.md": {
+"id": 320,
+"en": "Sichuan Boiled Beef"
+},
+"dishes/meat_dish/茭白炒肉/茭白炒肉.md": {
+"id": 321,
+"en": "Stir-Fried Pork with Water Bamboo Shoots"
+},
+"dishes/meat_dish/小炒鸡肝/小炒鸡肝.md": {
+"id": 322,
+"en": "Stir-fried Chicken Liver"
+},
+"dishes/meat_dish/醉排骨/醉排骨.md": {
+"id": 323,
+"en": "Drunken Spare Ribs"
+},
+"dishes/meat_dish/黔式腊肠娃娃菜/黔式腊肠娃娃菜.md": {
+"id": 324,
+"en": "Qian-style Cured Sausage with Baby Cabbage"
+},
+"dishes/meat_dish/啤酒鸭/啤酒鸭.md": {
+"id": 325,
+"en": "Beer Duck"
+},
+"dishes/meat_dish/红烧肉/南派红烧肉.md": {
+"id": 326,
+"en": "Southern-style Braised Pork Belly"
+},
+"dishes/meat_dish/红烧肉/简易红烧肉.md": {
+"id": 327,
+"en": "Simple Braised Pork Belly"
+},
+"dishes/meat_dish/卤菜/卤菜.md": {
+"id": 328,
+"en": "Braised Food"
+},
+"dishes/meat_dish/徽派红烧肉/徽派红烧肉.md": {
+"id": 329,
+"en": "Huizhou-Style Red-Braised Pork"
+},
+"dishes/meat_dish/黑椒牛柳/黑椒牛柳.md": {
+"id": 330,
+"en": "Black Pepper Beef Strips"
+},
+"dishes/meat_dish/枝竹羊腩煲/枝竹羊腩煲.md": {
+"id": 331,
+"en": "Lamb Brisket and Dried Bean Curd Stick Hot Pot"
+},
+"dishes/meat_dish/新疆大盘鸡/新疆大盘鸡.md": {
+"id": 332,
+"en": "Xinjiang Big Plate Chicken"
+},
+"dishes/meat_dish/酱牛肉/酱牛肉.md": {
+"id": 333,
+"en": "Braised Beef"
+},
+"dishes/meat_dish/红烧猪蹄/红烧猪蹄.md": {
+"id": 334,
+"en": "Braised Pork Trotters"
+},
+"dishes/meat_dish/牛排/牛排.md": {
+"id": 335,
+"en": "Steak"
+},
+"dishes/meat_dish/尖叫牛蛙/尖叫牛蛙.md": {
+"id": 336,
+"en": "Screaming Bullfrog"
+},
+"dishes/meat_dish/香干芹菜炒肉/香干芹菜炒肉.md": {
+"id": 337,
+"en": "Stir-fried Meat with Dried Tofu and Celery"
+},
+"dishes/meat_dish/香辣鸡爪煲/香辣鸡爪煲.md": {
+"id": 338,
+"en": "Spicy Chicken Feet Hot Pot"
+},
+"dishes/meat_dish/老妈蹄花/老妈蹄花.md": {
+"id": 339,
+"en": "Mom's Pig Trotter"
+},
+"dishes/meat_dish/湘祁米夫鸭/湘祁米夫鸭.md": {
+"id": 340,
+"en": "Xiangqi Rice Husband Duck"
+},
+"dishes/meat_dish/姜葱捞鸡/姜葱捞鸡.md": {
+"id": 341,
+"en": "Ginger and Scallion Chicken"
+},
+"dishes/meat_dish/鱼香茄子/鱼香茄子.md": {
+"id": 342,
+"en": "Fish-Flavored Eggplant"
+},
+"dishes/meat_dish/贵州辣子鸡/贵州辣子鸡.md": {
+"id": 343,
+"en": "Guizhou Spicy Chicken"
+},
+"dishes/meat_dish/西红柿牛腩/西红柿牛腩.md": {
+"id": 344,
+"en": "Beef Brisket with Tomatoes"
+},
+"dishes/meat_dish/梅菜扣肉/梅菜扣肉.md": {
+"id": 345,
+"en": "Meicai Kou Rou (Braised Pork Belly with Preserved Mustard Greens)"
+},
+"dishes/meat_dish/柱候牛腩/柱候牛腩.md": {
+"id": 346,
+"en": "Beef Brisket"
+},
+"dishes/meat_dish/血浆鸭/血浆鸭.md": {
+"id": 347,
+"en": "Plasma Duck"
+},
+"dishes/meat_dish/口水鸡/口水鸡.md": {
+"id": 348,
+"en": "Shuizhiji (Chicken in Spicy Sauce)"
+},
+"dishes/meat_dish/豉汁蒸白鱔/豉汁蒸白鱔.md": {
+"id": 349,
+"en": "Steamed Cuttlefish in Black Bean Sauce"
+},
+"dishes/meat_dish/酱排骨/酱排骨.md": {
+"id": 350,
+"en": "Braised Spare Ribs"
+},
+"dishes/meat_dish/无骨鸡爪/无骨鸡爪.md": {
+"id": 351,
+"en": "Boneless Chicken Feet"
+},
+"dishes/meat_dish/巴基斯坦牛肉咖喱/巴基斯坦牛肉咖喱.md": {
+"id": 352,
+"en": "Pakistani Beef Curry"
+},
+"dishes/meat_dish/回锅肉/回锅肉.md": {
+"id": 353,
+"en": "Twice-cooked pork"
+},
+"dishes/meat_dish/清蒸鳜鱼/清蒸鳜鱼.md": {
+"id": 354,
+"en": "Steamed Mandarin Fish"
+},
+"dishes/meat_dish/羊排焖面/羊排焖面.md": {
+"id": 355,
+"en": "Braised Lamb Chops with Noodles"
+},
+"dishes/meat_dish/香煎五花肉/香煎五花肉.md": {
+"id": 356,
+"en": "Pan-Fried Pork Belly"
+},
+"dishes/meat_dish/煎烤羊排/煎烤羊排.md": {
+"id": 357,
+"en": "Grilled Lamb Chops"
+},
+"dishes/meat_dish/广式萝卜牛腩/广式萝卜牛腩.md": {
+"id": 358,
+"en": "Cantonese-style Beef Brisket with Radish"
+},
+"dishes/aquatic/阳朔啤酒鱼/阳朔啤酒鱼.md": {
+"id": 359,
+"en": "Yangshuo Beer Fish"
+},
+"dishes/meat_dish/田螺酿/田螺酿.md": {
+"id": 360,
+"en": "Stuffed River Snails"
+},
+"dishes/meat_dish/桂林十八酿/桂林十八酿.md": {
+"id": 361,
+"en": "Guilin Eighteen Pickles"
+},
+"dishes/meat_dish/青椒酿/青椒酿.md": {
+"id": 362,
+"en": "Stuffed Green Peppers"
+},
+"dishes/staple/炒方便面/炒方便面.md": {
+"id": 363,
+"en": "Stir-fried instant noodles"
+},
+"dishes/vegetable_dish/地三鲜/地三鲜.md": {
+"id": 364,
+"en": "Di San Xian"
+},
+"dishes/vegetable_dish/乾隆白菜/乾隆白菜.md": {
+"id": 365,
+"en": "Qianlong Cabbage"
+},
+"dishes/meat_dish/淄博烧烤/淄博烧烤.md": {
+"id": 366,
+"en": "Zibo BBQ"
+},
+"dishes/meat_dish/澳门湿版免治牛肉饭/澳门湿版免治牛肉饭.md": {
+"id": 367,
+"en": "Macau Wet-Plate Braised Beef Rice"
+},
+"dishes/meat_dish/空气炸锅脆皮现腌炸鸡/空气炸锅脆皮现腌炸鸡.md": {
+"id": 368,
+"en": "Freshly Marinated Crispy Fried Chicken in the Air Fryer"
+},
+"dishes/vegetable_dish/蒜蓉炒芹菜/蒜蓉炒芹菜.md": {
+"id": 369,
+"en": "Stir-fried Celery with Garlic"
+},
+"dishes/meat_dish/葱烧鸡腿.md": {
+"id": 370,
+"en": "Scallion-Braised Chicken Thigh"
+},
+"dishes/vegetable_dish/韭菜炒蛋/韭菜炒蛋.md": {
+"id": 371,
+"en": "Stir-fried Chives with Eggs"
+},
+"dishes/meat_dish/奥尔良风味烤鸡腿/奥尔良风味烤鸡腿.md": {
+"id": 372,
+"en": "Orleans-Style Roasted Chicken Thigh"
+},
+"dishes/staple/滕州菜煎饼.md": {
+"id": 373,
+"en": "Tengzhou Vegetable Pancake"
+},
+"dishes/soup/山药南瓜炖鸡汤.md": {
+"id": 374,
+"en": "Chicken Soup with Chinese Yam and Pumpkin"
+},
+"dishes/meat_dish/冬瓜桑拿鸡.md": {
+"id": 375,
+"en": "Winter Melon Sauna Chicken"
+},
+"dishes/vegetable_dish/炒土豆和胡萝卜蒸菜.md": {
+"id": 376,
+"en": "Steamed Potato and Carrot Dish"
+},
+"dishes/vegetable_dish/炸洋葱花/炸洋葱花.md": {
+"id": 377,
+"en": "Blooming Onion"
+},
+"dishes/soup/白萝卜丝清汤.md": {
+"id": 378,
+"en": "Clear Soup with Shredded Daikon"
+},
+"dishes/condiment/山西炒西红柿酱.md": {
+"id": 379,
+"en": "Shanxi Stir-Fried Tomato Sauce"
+}
+}

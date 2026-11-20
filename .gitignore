@@ -1,0 +1,12 @@
+# your private data
+data/db.json
+data/db.json.tmp
+data/words.json
+data/words.json.tmp
+data/translations/
+logs/
+# downloaded / generated
+vendor/
+__pycache__/
+*.pyc
+.DS_Store
