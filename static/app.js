@@ -544,7 +544,7 @@ function viewWeek() {
     if (!day) {
       const prev = plan.days[addDays(date, -1)];
       const left = prev && prev.servings > 2 ? `Leftovers: ${esc(prev.dishes.map((id) => BYID[id]?.name).join(" + "))}` : "No cooking — leftovers, freezer or eat out";
-      days.push(`<div class="card day off"><div class="d"><span class="small muted">${f.dow}</span><b>${f.day}</b></div><div class="row spread"><span class="muted">${left}</span><button class="btn sm" data-act="addcook" data-d="${date}">+ Cook</button></div></div>`);
+      days.push(`<div class="card day off" data-day="${date}"><div class="d"><span class="small muted">${f.dow}</span><b>${f.day}</b></div><div class="row spread"><span class="muted">${left}</span><button class="btn sm" data-act="addcook" data-d="${date}">+ Cook</button></div></div>`);
       continue;
     }
     const dishes = day.dishes.map((id, j) => {
@@ -560,8 +560,10 @@ function viewWeek() {
       </div>`;
     }).join("");
     const lunch = day.servings > 2 ? `<span class="chip plain">→ ${day.servings - 2} lunch portion${day.servings - 2 > 1 ? "s" : ""} for ${fmtDay(addDays(date, 1)).dow}</span>` : "";
-    days.push(`<div class="card day ${isToday ? "today" : ""}" style="${isToday ? "border-color:var(--accent)" : ""}">
-      <div class="d"><span class="small muted">${f.dow}</span><b>${f.day}</b>${isToday ? `<span class="chip">today</span>` : ""}</div>
+    const movable = !day.cooked && daysFrom(date) >= 0;
+    days.push(`<div class="card day ${isToday ? "today" : ""}" data-day="${date}" style="${isToday ? "border-color:var(--accent)" : ""}">
+      <div class="d"><span class="small muted">${f.dow}</span><b>${f.day}</b>${isToday ? `<span class="chip">today</span>` : ""}
+        ${movable ? `<span class="grip" data-drag="${date}" title="Drag onto another day to swap">⠿</span>` : ""}</div>
       <div>${dishes}
         <div class="row" style="margin-top:8px">
           <select data-act="servings" data-d="${date}" title="Servings">${[2, 3, 4, 5, 6].map((n) => `<option ${n === day.servings ? "selected" : ""} value="${n}">${n} serves</option>`).join("")}</select>
@@ -582,7 +584,7 @@ function viewWeek() {
     </div></div>
   ${nextWeek ? `<div class="banner info">This week is over. <button class="btn sm" data-act="weeknav" data-v="7">Start next week</button></div>` : ""}
   ${!DB.pantry.length ? `<div class="banner info">Tip: add what's in your fridge &amp; pantry first — suggestions use up what you have (expiring items first). <button class="btn sm" data-act="tab" data-v="pantry">Add food</button></div>` : ""}
-  <p class="small muted">Cooking ${st.cookDays.length} nights · ${st.servings} serves each (2 dinner + ${st.servings - 2} lunch) · locked &amp; cooked days stay put on reshuffle.</p>
+  <p class="small muted">Cooking ${st.cookDays.length} nights · ${st.servings} serves each (2 dinner + ${st.servings - 2} lunch) · locked &amp; cooked days stay put on reshuffle · drag ⠿ onto another day to swap.</p>
   ${days.join("")}
   ${DB.pets.length ? `<div class="card"><div class="row spread"><h3>🐾 Pet batches</h3><button class="btn sm" data-act="tab" data-v="pets">Change</button></div>
     ${DB.pets.map((p) => { const b = batchFor(p), d = petDue(p), when = d === null ? "first batch — any day" : d < 0 ? `overdue ${-d}d` : d === 0 ? "today" : `${fmtDay(addDays(today(), d)).dow} ${fmtDay(addDays(today(), d)).day}`;
@@ -1077,6 +1079,42 @@ function closeModal() { $("#modal").hidden = true; $("#modalBody").innerHTML = "
 $("#modal .x").onclick = closeModal;
 $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+// ---------- drag a day onto another day to swap ----------
+function swapDays(a, b) {
+  const plan = currentWeek(), A = plan.days[a], B = plan.days[b];
+  if (!A || a === b || A.cooked || B?.cooked || daysFrom(b) < 0) return false;
+  plan.days[b] = A; A.locked = true; // you placed it by hand → reshuffle keeps it
+  if (B) { plan.days[a] = B; B.locked = true; } else delete plan.days[a];
+  return true;
+}
+let DRAG = null;
+document.addEventListener("pointerdown", (e) => {
+  const g = e.target.closest("[data-drag]"); if (!g || e.button > 0) return;
+  e.preventDefault();
+  const card = g.closest("[data-day]");
+  DRAG = { from: g.dataset.drag, card, y0: e.clientY, s0: window.scrollY, over: null };
+  card.classList.add("dragging"); g.setPointerCapture(e.pointerId);
+});
+document.addEventListener("pointermove", (e) => {
+  if (!DRAG) return;
+  if (e.clientY < 90) window.scrollBy(0, -12); else if (e.clientY > innerHeight - 60) window.scrollBy(0, 12);
+  DRAG.card.style.transform = `translateY(${e.clientY - DRAG.y0 + window.scrollY - DRAG.s0}px)`;
+  const tgt = document.elementsFromPoint(e.clientX, e.clientY).map((el) => el.closest("[data-day]")).find((el) => el && el !== DRAG.card);
+  const ok = tgt && daysFrom(tgt.dataset.day) >= 0 && !tgt.querySelector(".chip.good") ? tgt : null;
+  if (DRAG.over !== ok) { DRAG.over?.classList.remove("dropon"); ok?.classList.add("dropon"); DRAG.over = ok; }
+});
+function endDrag() {
+  if (!DRAG) return;
+  const { from, over, card } = DRAG; DRAG = null;
+  card.classList.remove("dragging"); card.style.transform = ""; over?.classList.remove("dropon");
+  if (over && swapDays(from, over.dataset.day)) {
+    save("plan"); render();
+    toast(`Swapped ${fmtDay(from).dow} ↔ ${fmtDay(over.dataset.day).dow} (both locked)`);
+  }
+}
+document.addEventListener("pointerup", endDrag);
+document.addEventListener("pointercancel", endDrag);
 
 // ---------- events ----------
 document.addEventListener("click", async (e) => {
