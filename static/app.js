@@ -121,6 +121,12 @@ function splitName(n) {
   const en = n.replace(/[\u4e00-\u9fff]+/g, " ").replace(/[·•|/,，、]+|\s[-–—]\s/g, " ").replace(/\s+/g, " ").trim();
   return { en, zh };
 }
+function both(n) {
+  let { en, zh } = splitName(n);
+  if (en && !zh) { const t = translationOf(en); if (HAS_ZH.test(t)) zh = t; }
+  else if (zh && !en) { const t = translationOf(zh); if (t && !HAS_ZH.test(t)) en = t; }
+  return { en, zh };
+}
 function label(n) {
   let { en, zh } = splitName(n);
   if (en && !zh) { const t = translationOf(en); if (HAS_ZH.test(t)) zh = t; }
@@ -183,17 +189,18 @@ function md(src) {
   close();
   return out.join("");
 }
-async function fillSteps(r, original) {
+async function fillSteps(r, original, lang = LANG) {
   const box = $("#steps"); if (!box) return;
   const local = () => md(r.steps || r.desc || "");
-  if (original || LANG === "zh-CN" || !r.aid) {
+  if (original || lang === "zh-CN" || !r.aid) {
     box.innerHTML = local() || `<p class="muted">No steps saved. <a href="${esc(r.url)}" target="_blank" rel="noopener">Open source ↗</a></p>`;
-    if (!original && LANG !== "zh-CN" && !r.aid && !r.custom) box.insertAdjacentHTML("afterbegin", `<p class="small muted">No ${esc(LANGS[LANG])} version of this one yet — showing original.</p>`);
+    if (!original && lang !== "zh-CN" && !r.aid && !r.custom) box.insertAdjacentHTML("afterbegin", `<p class="small muted">No ${esc(LANGS[lang])} version of this one yet — showing original.</p>`);
     return;
   }
-  box.innerHTML = `<p class="muted">Loading ${esc(LANGS[LANG])}…</p>`;
+  box.innerHTML = `<p class="muted">Loading ${esc(LANGS[lang])}…</p>`;
   try {
-    const res = await fetch(`/api/translate?id=${encodeURIComponent(r.id)}&lang=${LANG}`);
+    let res;
+    for (let k = 0; k < 2; k++) { try { res = await fetch(`/api/translate?id=${encodeURIComponent(r.id)}&lang=${lang}`); break; } catch (e) { if (k) throw e; await new Promise((ok) => setTimeout(ok, 1500)); } }
     if (!res.ok) throw new Error((await res.json()).error);
     const { html } = await res.json();
     if ($("#steps") !== box) return;
@@ -452,7 +459,7 @@ function viewShopping() {
     <button class="btn sm" data-act="shopmove" ${shop.some((x) => x.done) ? "" : "disabled"}>Bought → pantry</button>
     <button class="btn sm" data-act="shopcopy">Copy</button>
     <button class="btn ghost sm" data-act="shopclear">Clear</button></div></div>
-    <form class="row" data-form="shopadd" style="margin:8px 0"><input name="n" class="grow" placeholder="Add anything — toilet paper, cat litter, potting mix…" list="inglist">
+    <form class="row" data-form="shopadd" style="margin:8px 0"><input name="n" class="grow" placeholder="Add anything — toilet paper, cat litter, potting mix…" data-suggest autocomplete="off" autocorrect="off">
       <select name="store"><option value="">Auto shop</option>${stores.map((st) => `<option>${esc(st)}</option>`).join("")}</select><button class="btn primary">Add</button></form>
     ${up.length ? `<div class="row small" style="margin:6px 0"><span class="muted">Dinners this shop covers:</span>${up.map((d) => `<button class="chip pick ${on.has(d) ? "on" : ""}" data-act="shopday" data-d="${d}">${fmtDay(d).dow} ${fmtDay(d).day}</button>`).join("")}</div>` : `<p class="small muted">Plan some dinners and their missing ingredients appear here by themselves.</p>`}
     ${shop.length ? `<div class="row small" style="margin:6px 0 4px"><span class="muted">Shopping at:</span>
@@ -598,14 +605,45 @@ function viewWeek() {
 }
 
 let _dl = "";
-function datalist() {
-  if (!_dl) {
+function datalist() { return ""; } // replaced by suggestBox(): native <datalist> fights Chinese/pinyin typing on phones
+let SUGG_NAMES = null;
+function suggestNames() {
+  if (!SUGG_NAMES) {
     const names = new Set(Object.keys(ALIAS));
     for (const r of BASE) for (const i of r.ings) names.add(i.n);
-    _dl = `<datalist id="inglist">${[...names].map((n) => `<option value="${esc(n)}">`).join("")}</datalist>`;
+    for (const p of DB.pantry) names.add(p.name);
+    SUGG_NAMES = [...names];
   }
-  return _dl;
+  return SUGG_NAMES;
 }
+// Suggestions only appear as tappable chips under the box. Nothing is ever typed into the box for you,
+// and nothing updates while an IME (pinyin) is still composing.
+function suggestBox(input) {
+  $("#sugg")?.remove();
+  const part = input.value.split(/[,，、]/).pop().trim().toLowerCase();
+  if (!part || document.activeElement !== input) return;
+  const hits = suggestNames().filter((n) => n.toLowerCase().includes(part) && n.toLowerCase() !== part)
+    .sort((a, b) => (a.toLowerCase().startsWith(part) ? 0 : 1) - (b.toLowerCase().startsWith(part) ? 0 : 1) || a.length - b.length).slice(0, 8);
+  if (!hits.length) return;
+  const r = input.getBoundingClientRect();
+  const box = document.createElement("div");
+  box.id = "sugg"; box.className = "sugg";
+  box.style.cssText = `left:${Math.max(8, Math.min(r.left, innerWidth - 268))}px;top:${r.bottom + 4}px;max-width:${Math.min(Math.max(r.width, 260), innerWidth - 16)}px`;
+  box.innerHTML = hits.map((h) => `<button type="button" data-v="${esc(h)}">${esc(label(h))}</button>`).join("");
+  box.onpointerdown = (e) => e.preventDefault(); // keep focus (and the keyboard) on the input
+  box.onclick = (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    const segs = input.value.split(/([,，、]\s*)/); segs[segs.length - 1] = b.dataset.v;
+    input.value = segs.join("");
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    $("#sugg")?.remove();
+  };
+  document.body.appendChild(box);
+}
+document.addEventListener("compositionend", (e) => { if (e.target.matches?.("[data-suggest]")) suggestBox(e.target); if (e.target.id === "rq") searchSoon(e.target); });
+document.addEventListener("focusout", (e) => { if (e.target.matches?.("[data-suggest]")) setTimeout(() => { if (!document.activeElement?.matches?.("[data-suggest]")) $("#sugg")?.remove(); }, 150); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") $("#sugg")?.remove(); });
+document.addEventListener("scroll", (e) => { if (!e.target.closest?.("#sugg")) $("#sugg")?.remove(); }, true);
 
 function viewPantry() {
   const items = pantryItems();
@@ -621,7 +659,7 @@ function viewPantry() {
   }).join("");
   return `${dueBanners()}<h2>Fridge &amp; pantry</h2>
   <div class="card"><form data-form="padd">
-    <div class="row"><input name="n" class="grow" placeholder="e.g. eggs, 鸡腿, tomato" list="inglist" required autocomplete="off">
+    <div class="row"><input name="n" class="grow" placeholder="e.g. eggs, 鸡腿, tomato" data-suggest autocomplete="off" autocorrect="off" required>
       <select name="loc"><option value="auto">Auto place</option>${Object.entries(LOCS).map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></div>
     <div class="row" style="margin-top:8px"><input name="qty" placeholder="Amount (optional)" style="width:140px">
       <label class="small muted">Use by <input type="date" name="exp"></label>
@@ -688,7 +726,7 @@ function viewRecipes() {
   return `<div class="row spread"><h2>Recipes</h2><button class="btn primary" data-act="newrecipe">+ Add recipe (link, video or text)</button></div>
   <div class="card row">
     <button class="btn railbtn" data-act="railtoggle">☰ Filters${active.length ? ` (${active.length})` : ""}</button>
-    <input id="rq" class="grow" placeholder="Search name or ingredient (egg / 鸡蛋)" value="${esc(ui.q)}" list="inglist">
+    <input id="rq" class="grow" placeholder="Search name or ingredient (egg / 鸡蛋)" value="${esc(ui.q)}" data-suggest autocomplete="off" autocorrect="off">
     <select id="rsort">${Object.entries({ match: "Best pantry match", fav: "Favorites first", rated: "My top rated", cooked: "Most cooked", easy: "Easiest", kcalAsc: "Lowest calories", kcalDesc: "Highest calories", name: "Name" }).map(([k, v]) => `<option value="${k}" ${ui.sort === k ? "selected" : ""}>${v}</option>`).join("")}</select>
   </div>
   <div class="rwrap">${rail}<div>
@@ -715,11 +753,41 @@ function scaleQty(q, f) {
     return v >= 20 ? String(Math.round(v)) : String(Math.round(v * 10) / 10);
   });
 }
-function openRecipe(id, target) {
+// Recipe popup language: "tr" = your language (English if the picker is 中文), "zh" = original Chinese.
+const RV = { id: null, view: "tr" };
+const trLang = () => (LANG === "zh-CN" ? "en-US" : LANG);
+function nameCell(nm, view) {
+  const { en, zh } = both(nm);
+  if (view === "zh") return esc(zh || nm);
+  return en ? `${esc(en)}${zh ? ` <span class="muted small">${esc(zh)}</span>` : ""}` : esc(nm);
+}
+const UNIT_EN = { 个: "", 只: "", 颗: "", 枚: "", 根: "", 条: "", 片: "slices", 把: "handful", 小把: "small handful", 瓣: "cloves", 勺: "spoon", 汤匙: "tbsp",
+  大勺: "tbsp", 小勺: "tsp", 茶匙: "tsp", 克: "g", 千克: "kg", 公斤: "kg", 毫升: "ml", 升: "L", 块: "pieces", 小块: "small piece", 杯: "cup", 碗: "bowl", 斤: "jin (500 g)",
+  适量: "to taste", 少许: "a little", 少量: "a little", 滴: "drops", 段: "sections", 张: "sheets", 包: "pack", 袋: "bag", 盒: "box", 罐: "can", 头: "head", 粒: "", 朵: "florets", 撮: "pinch" };
+function unitCell(u, view) {
+  if (view === "zh" || !u) return esc(u);
+  const m = String(u).match(/^(小把|大勺|小勺|小块|千克|公斤|毫升|汤匙|茶匙|[\u4e00-\u9fff])(.*)$/);
+  if (!m || !(m[1] in UNIT_EN)) return esc(u);
+  const rest = m[2].trim();
+  return esc(UNIT_EN[m[1]]) + (rest ? ` <span class="muted small">${esc(rest)}</span>` : "");
+}
+async function translateTable(r) {
+  const todo = [...new Set((r.table || []).map(([nm]) => splitName(nm)).filter((x) => x.zh && !x.en && !both(x.zh).en).map((x) => x.zh))]
+    .filter((n) => !(n.toLowerCase() in WORDS)).slice(0, 30);
+  for (const n of todo) {
+    try { const res = await fetch("/api/word?q=" + encodeURIComponent(n)); if (!res.ok) break; WORDS[n.toLowerCase()] = await res.json(); } catch { break; }
+    if (RV.id !== r.id || RV.view !== "tr") return;
+    document.querySelectorAll(`#amt td[data-nm]`).forEach((td) => (td.innerHTML = nameCell(td.dataset.nm, "tr")));
+  }
+}
+function openRecipe(id, target, view) {
   const r = BYID[id]; if (!r) return;
+  if (RV.id !== id) { RV.view = LANG === "zh-CN" ? "zh" : "tr"; RV.target = null; }
+  RV.id = id; if (view) RV.view = view; if (target) RV.target = target;
+  const V = RV.view, title = V === "zh" ? r.name : (r.en || r.name), sub = V === "zh" ? (r.en || "") : (r.en ? r.name : "");
   const n = noteOf(id), st = S();
   const base = n.makes || r.serves || 2;
-  const want = target || st.servings;
+  const want = RV.target || st.servings;
   const f = want / base;
   const a = analyze(r);
   const ingRow = (i, cls, tag) => `<span class="chip ${cls}" title="${esc(tag)}">${esc(label(i.n))}${i.swapped ? ` <s class="small">${esc(i.swapped)}</s>` : ""}</span>`;
@@ -728,7 +796,8 @@ function openRecipe(id, target) {
   openModal(`
     <div class="small muted">${esc(r.cat)} · ${esc(r.protein)}${r.stars ? " · difficulty " + "★".repeat(r.stars) : ""}${r.kcal ? ` · ~${r.kcal} kcal` : ""}</div>
     ${r.img ? `<img class="hero" src="${esc(r.img)}" alt="">` : ""}
-    <h2 style="margin:4px 0 2px">${esc(dispName(r))}</h2>${subName(r) ? `<div class="muted">${esc(subName(r))}</div>` : ""}
+    <div class="row spread" style="align-items:flex-start;flex-wrap:nowrap"><div><h2 style="margin:4px 0 2px">${esc(title)}</h2>${sub && sub !== title ? `<div class="muted">${esc(sub)}</div>` : ""}</div>
+      <span class="row" style="flex-wrap:nowrap;margin-top:6px"><button class="chip pick ${V === "tr" ? "on" : ""}" data-act="rview" data-id="${esc(id)}" data-v="tr">${esc((LANGS[trLang()] || "English").replace(/ \(.*\)/, ""))}</button><button class="chip pick ${V === "zh" ? "on" : ""}" data-act="rview" data-id="${esc(id)}" data-v="zh">中文</button></span></div>
     ${r.desc && (LANG === "zh-CN" || r.custom) ? `<p class="muted">${esc(r.desc)}</p>` : ""}
     <div class="row" style="margin-top:8px">${r.url ? `<a class="btn primary" href="${esc(aiurUrl(r))}" target="_blank" rel="noopener">${r.aid ? "Open on HowToCook site ↗" : "Open full recipe ↗"}</a>` : ""}
       ${r.aid ? `<a class="btn ghost sm" href="${esc(r.url)}" target="_blank" rel="noopener">GitHub source ↗</a>` : ""}
@@ -747,16 +816,16 @@ function openRecipe(id, target) {
     ${r.table?.length ? `<h3 style="margin-top:14px">Amounts</h3>
       <div class="row small"><span>Scale to</span>${[1, 2, 3, 4, 6].map((s) => `<button class="chip pick ${s === want ? "on" : ""}" data-act="scale" data-id="${esc(id)}" data-v="${s}">${s}</button>`).join("")}
       <span class="muted">base ≈ ${base} serve${base > 1 ? "s" : ""}${n.makes ? " (from your log)" : r.serves ? "" : " (guessed)"}</span></div>
-      <table style="margin-top:6px"><tr><th>Ingredient</th><th>Amount ×${Math.round(f * 100) / 100}</th></tr>
-      ${r.table.map(([nm, q, u]) => `<tr><td>${esc(nm)}</td><td>${esc(scaleQty(q, f))} ${esc(u)}</td></tr>`).join("")}</table>` : ""}
-    <div class="row spread" style="margin-top:14px"><h3 style="margin:0">Steps</h3>
-      ${LANG !== "zh-CN" && r.aid ? `<span class="row"><button class="chip pick" data-act="steps" data-id="${esc(id)}" data-v="tr">${esc(LANGS[LANG])}</button><button class="chip pick" data-act="steps" data-id="${esc(id)}" data-v="orig">原文</button></span>` : ""}</div>
+      <table id="amt" style="margin-top:6px"><tr><th>${V === "zh" ? "食材" : "Ingredient"}</th><th>${V === "zh" ? "用量" : "Amount"} ×${Math.round(f * 100) / 100}</th></tr>
+      ${r.table.map(([nm, q, u]) => `<tr><td data-nm="${esc(nm)}">${nameCell(nm, V)}</td><td>${esc(scaleQty(q, f))} ${unitCell(u, V)}</td></tr>`).join("")}</table>` : ""}
+    <h3 style="margin-top:14px">${V === "zh" ? "步骤" : "Steps"}</h3>
     <div id="steps" class="md"></div>
     <h3 style="margin-top:14px">Plan it</h3>
     <div class="row">${[0, 1, 2, 3, 4, 5, 6].map((i) => { const d = addDays(currentWeek().weekOf, i); return `<button class="chip pick ${planDays.includes(d) ? "" : ""}" data-act="plancook" data-id="${esc(id)}" data-d="${d}">${fmtDay(d).dow} ${fmtDay(d).day}${currentWeek().days[d] ? " +" : ""}</button>`; }).join("")}</div>
     ${cooks.length ? `<h3 style="margin-top:14px">Cook log</h3>${cooks.map((c) => `<div class="small list-item"><span class="grow">${esc(c.date)} · ${c.rating ? "⭐".repeat(c.rating) : ""} ${c.taste?.length ? "· " + esc(c.taste.join(", ")) : ""} ${c.notes ? "· " + esc(c.notes) : ""}</span></div>`).join("")}` : ""}
   `);
-  fillSteps(r);
+  fillSteps(r, V === "zh", trLang());
+  if (V === "tr") translateTable(r);
 }
 
 // ---------- wizard engine ----------
@@ -770,13 +839,13 @@ function wizard({ title, steps, answers = {}, onDone }) {
     let body = "";
     if (s.type === "choice") body = `<div class="chips">${opts(s).map((o) => `<button class="chip pick ${val === o.v ? "on" : ""}" data-w="pick" data-v="${esc(o.v)}">${esc(o.l)}</button>`).join("")}</div>`;
     if (s.type === "multi") body = `<div class="chips">${opts(s).map((o) => `<button class="chip pick ${(val || []).includes(o.v) ? "on" : ""}" data-w="toggle" data-v="${esc(o.v)}">${esc(o.l)}</button>`).join("")}</div>`;
-    if (s.type === "text") body = s.long ? `<textarea id="wv" placeholder="${esc(s.ph || "")}">${esc(val || "")}</textarea>` : `<input id="wv" style="width:100%" placeholder="${esc(s.ph || "")}" value="${esc(val || "")}" ${s.list ? 'list="inglist"' : ""}>`;
+    if (s.type === "text") body = s.long ? `<textarea id="wv" placeholder="${esc(s.ph || "")}">${esc(val || "")}</textarea>` : `<input id="wv" style="width:100%" placeholder="${esc(s.ph || "")}" value="${esc(val || "")}" ${s.list ? 'data-suggest autocomplete="off" autocorrect="off"' : ""}>`;
     if (s.type === "number") body = `<div class="row"><input id="wv" type="number" step="${s.step || 1}" min="0" value="${esc(val ?? "")}" style="width:120px"> <span class="muted">${esc(s.unit || "")}</span></div>
       ${s.quick ? `<div class="chips" style="margin-top:8px">${s.quick.map((q) => `<button class="chip pick ${+val === q ? "on" : ""}" data-w="num" data-v="${q}">${q}</button>`).join("")}</div>` : ""}`;
     if (s.type === "stars") body = `<div class="stars">${[1, 2, 3, 4, 5].map((n) => `<button data-w="pick" data-v="${n}" class="${val >= n ? "on" : ""}">★</button>`).join("")}</div>`;
     if (s.type === "checks") body = opts(s).map((o) => `<label class="list-item"><input type="checkbox" class="wc" value="${esc(o.v)}" ${(val || []).includes(o.v) ? "checked" : ""}><span class="grow">${esc(o.l)}</span></label>`).join("") || `<p class="muted">Nothing to pick.</p>`;
     if (s.type === "swaps") body = opts(s).map((o) => { const cur = (val || {})[o.v]; return `<div class="list-item"><label class="grow"><input type="checkbox" class="ws" value="${esc(o.v)}" ${cur !== undefined ? "checked" : ""}> ${esc(label(o.v))}</label>
-      <input class="wsr" data-for="${esc(o.v)}" placeholder="used instead (blank = skipped)" value="${esc(cur || "")}" list="inglist" style="width:52%"></div>`; }).join("");
+      <input class="wsr" data-for="${esc(o.v)}" placeholder="used instead (blank = skipped)" value="${esc(cur || "")}" data-suggest autocomplete="off" autocorrect="off" style="width:52%"></div>`; }).join("");
     if (s.type === "date") body = `<input id="wv" type="date" value="${esc(val || today())}">`;
     $("#modalBody").innerHTML = `<div class="wiz-step">${esc(title)} · ${i + 1} of ${vs.length}</div>
       <div class="wiz-q">${esc(typeof s.q === "function" ? s.q(answers) : s.q)}</div>
@@ -1131,7 +1200,7 @@ function viewSettings() {
     <form class="row" data-form="storeadd" style="margin-top:8px"><input name="n" placeholder="Add a shop (e.g. Aldi)"><button class="btn">Add</button></form></div>
   <div class="card"><h3>Always in the cupboard</h3><p class="small muted">Treated as "have" — never put on the shopping list.</p>
     <div class="chips">${st.staples.map((s) => `<span class="chip">${esc(label(s))}<button data-act="staplerm" data-v="${esc(s)}">×</button></span>`).join("")}</div>
-    <form class="row" data-form="stapleadd" style="margin-top:8px"><input name="n" placeholder="Add staple (e.g. 豆瓣酱)" list="inglist"><button class="btn">Add</button></form></div>
+    <form class="row" data-form="stapleadd" style="margin-top:8px"><input name="n" placeholder="Add staple (e.g. 豆瓣酱)" data-suggest autocomplete="off" autocorrect="off"><button class="btn">Add</button></form></div>
   <div class="card"><h3>Hidden recipes</h3>${hiddenList.map(([id]) => `<div class="list-item"><span class="grow">${esc(BYID[id]?.name || id)}</span><button class="btn sm" data-act="unhide" data-id="${esc(id)}">Unhide</button></div>`).join("") || `<p class="small muted">None. Answer "No" to "cook it again?" to hide one.</p>`}</div>
   <div class="card"><h3>Data</h3><p class="small muted">Everything is saved on the computer running the server (data/db.json) so both phones see the same plan.</p>
     <div class="row"><a class="btn" href="/api/db" download="kitchen-backup.json">Download backup</a></div>
@@ -1207,8 +1276,9 @@ document.addEventListener("click", async (e) => {
     }
     case "weeknav": plan.weekOf = addDays(plan.weekOf, +v); plan.days = Object.fromEntries(Object.entries(plan.days).filter(([k]) => k >= addDays(plan.weekOf, -7))); save("plan"); render(); break;
     case "open": openRecipe(id); break;
-    case "scale": openRecipe(id, +v); break;
+    case "scale": { const y = $("#modal .sheet").scrollTop; openRecipe(id, +v); $("#modal .sheet").scrollTop = y; break; }
     case "steps": fillSteps(BYID[id], v === "orig"); break;
+    case "rview": { const y = $("#modal .sheet").scrollTop; openRecipe(id, null, v); $("#modal .sheet").scrollTop = y; break; }
     case "update": closeModal(); updateRecipe(id, d); break;
     case "close": closeModal(); break;
     case "plancook": {
@@ -1273,7 +1343,7 @@ document.addEventListener("click", async (e) => {
     case "pedit": {
       const p = DB.pantry.find((x) => x.id === id);
       openModal(`<h3>Edit ${esc(p.name)}</h3><form data-form="pedit" data-id="${p.id}">
-        <div class="kv"><label>Name</label><input name="n" value="${esc(p.name)}" list="inglist">
+        <div class="kv"><label>Name</label><input name="n" value="${esc(p.name)}" data-suggest autocomplete="off" autocorrect="off">
         <label>Where</label><select name="loc">${Object.entries(LOCS).map(([l, t]) => `<option value="${l}" ${p.loc === l ? "selected" : ""}>${t}</option>`).join("")}</select>
         <label>Amount</label><input name="qty" value="${esc(p.qty || "")}">
         <label>Use by</label><input type="date" name="exp" value="${esc(p.exp || "")}">
@@ -1309,10 +1379,19 @@ document.addEventListener("change", async (e) => {
   if (act === "petrotate") { DB.pets.find((p) => p.id === id).rotate = t.checked; save("pets"); }
 });
 let qTimer;
-document.addEventListener("input", (e) => {
-  if (e.target.id !== "rq") return;
+function searchSoon(input) {
   clearTimeout(qTimer);
-  qTimer = setTimeout(() => { ui.q = e.target.value; ui.limit = 40; render(); const el = $("#rq"); el.focus(); el.setSelectionRange(el.value.length, el.value.length); }, 250);
+  qTimer = setTimeout(() => {
+    if (document.activeElement === input && input.dataset.composing) return; // still picking pinyin
+    ui.q = input.value; ui.limit = 40; render(); const el = $("#rq"); el.focus(); el.setSelectionRange(el.value.length, el.value.length);
+  }, 400);
+}
+document.addEventListener("compositionstart", (e) => { e.target.dataset && (e.target.dataset.composing = "1"); $("#sugg")?.remove(); });
+document.addEventListener("compositionend", (e) => { if (e.target.dataset) delete e.target.dataset.composing; }, true);
+document.addEventListener("input", (e) => {
+  if (e.isComposing || e.target.dataset?.composing) return; // never redraw mid-pinyin
+  if (e.target.matches?.("[data-suggest]")) suggestBox(e.target);
+  if (e.target.id === "rq") searchSoon(e.target);
 });
 document.addEventListener("submit", async (e) => {
   const f = e.target.closest("[data-form]"); if (!f) return;

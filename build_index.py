@@ -81,6 +81,22 @@ def clean_ing(s):
 UNITS = r"(ml|mL|ML|g|kg|克|千克|毫升|升|L|个|片|根|颗|瓣|盒|枚|勺|汤匙|茶匙|杯|只|条|块|cups?|tbsp|tsp|斤|两|粒|把|张|包|袋|cm|厘米)"
 
 
+def split_top(item):
+    """Split on 、 ； ; outside brackets, only when every piece carries its own amount."""
+    parts, buf, depth = [], "", 0
+    for ch in item:
+        depth += ch in "（(" 
+        depth -= ch in "）)" and depth > 0
+        if ch in "、；;" and depth == 0:
+            parts.append(buf); buf = ""
+        else:
+            buf += ch
+    parts.append(buf)
+    parts = [p.strip() for p in parts if p.strip()]
+    has_amt = lambda p: re.search(r"[0-9]|(?:^|\s)[半一两二三四五六七八九十]\s*\S", p)
+    return parts if len(parts) > 1 and all(has_amt(p) for p in parts) else [item]
+
+
 def parse_amount(item):
     """'鸡腿肉 400g' or '125ml 淡奶油' or '两瓣大蒜' -> [name, qty, unit]."""
     if "=" in item or re.search(r"[°℃]", item):
@@ -89,6 +105,11 @@ def parse_amount(item):
     m = re.match(r"^([0-9][0-9.\-–~/]*)\s*" + UNITS + r"?\s*(.+)$", item)
     if m:
         return [m.group(3).strip(), m.group(1), m.group(2) or ""]
+    # "包菜 半 颗", "鸡蛋 两 个" → number words as digits
+    m = re.match(r"^(.+?)\s+(半|一|两|二|三|四|五|六|七|八|九|十)\s*([^\s0-9]{1,3})(.*)$", item)
+    if m:
+        n = {"半": "0.5", "一": "1", "两": "2", "二": "2", "三": "3", "四": "4", "五": "5", "六": "6", "七": "7", "八": "8", "九": "9", "十": "10"}[m.group(2)]
+        return [m.group(1).strip(" ：:"), n, (m.group(3) + m.group(4)).strip()]
     m = re.match(r"^([^0-9].*?)\s*([0-9][0-9.\-–~/]*)\s*(\S*)(.*)$", item)
     if m:
         return [m.group(1).strip(" ：:"), m.group(2), (m.group(3) + m.group(4)).strip()]
@@ -154,9 +175,13 @@ def parse(path, rel):
             if len(cells) >= 2 and cells[0] not in ("原料", "材料", "食材", "名称"):
                 table.append(cells[:3] + [""] * (3 - len(cells[:3])))
         if sec == "计算" and re.match(r"^\s*[-*]\s+", l):
-            row = parse_amount(re.sub(r"^\s*[-*]\s+", "", l).strip())
-            if row:
-                table.append(row)
+            # "盐 2 g、生抽 15 ml、老抽 10 ml" → one row each
+            for part in split_top(re.sub(r"^\s*[-*]\s+", "", l).strip()):
+                row = parse_amount(part.strip())
+                if row and re.search(r"[（(]\s*$", row[0]):  # "猪肉 (250g)" → 猪肉 · 250 g
+                    row = [re.sub(r"\s*[（(]\s*$", "", row[0]), row[1], re.sub(r"\s*[）)]\s*$", "", row[2])]
+                if row and row[0]:
+                    table.append(row)
         if sec not in (None, "必备原料和工具", "计算"):
             steps.append(fix_links(l, rel) if not l.startswith("## ") else l)
 
