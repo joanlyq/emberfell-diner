@@ -685,7 +685,7 @@ function viewRecipes() {
     ${pantryNames.length ? `<div class="rh">Uses what I have</div>${pantryNames.map((n) => { const k = canon(n); return railLink("ing", n, esc(label(n)), count((x) => x.r.ings.some((i) => same(canon(i.n), k)))); }).join("")}` : ""}
     <div class="rh">Kitchen tips ↗</div>${TIPS.map(([n, t]) => `<a class="rl" href="${esc(tipUrl(n))}" target="_blank" rel="noopener">${t}</a>`).join("")}
   </aside>`;
-  return `<div class="row spread"><h2>Recipes</h2><button class="btn" data-act="newrecipe">+ My own recipe</button></div>
+  return `<div class="row spread"><h2>Recipes</h2><button class="btn primary" data-act="newrecipe">+ Add recipe (link, video or text)</button></div>
   <div class="card row">
     <button class="btn railbtn" data-act="railtoggle">☰ Filters${active.length ? ` (${active.length})` : ""}</button>
     <input id="rq" class="grow" placeholder="Search name or ingredient (egg / 鸡蛋)" value="${esc(ui.q)}" list="inglist">
@@ -729,12 +729,12 @@ function openRecipe(id, target) {
     <div class="small muted">${esc(r.cat)} · ${esc(r.protein)}${r.stars ? " · difficulty " + "★".repeat(r.stars) : ""}${r.kcal ? ` · ~${r.kcal} kcal` : ""}</div>
     ${r.img ? `<img class="hero" src="${esc(r.img)}" alt="">` : ""}
     <h2 style="margin:4px 0 2px">${esc(dispName(r))}</h2>${subName(r) ? `<div class="muted">${esc(subName(r))}</div>` : ""}
-    ${r.desc && LANG === "zh-CN" ? `<p class="muted">${esc(r.desc)}</p>` : ""}
+    ${r.desc && (LANG === "zh-CN" || r.custom) ? `<p class="muted">${esc(r.desc)}</p>` : ""}
     <div class="row" style="margin-top:8px">${r.url ? `<a class="btn primary" href="${esc(aiurUrl(r))}" target="_blank" rel="noopener">${r.aid ? "Open on HowToCook site ↗" : "Open full recipe ↗"}</a>` : ""}
       ${r.aid ? `<a class="btn ghost sm" href="${esc(r.url)}" target="_blank" rel="noopener">GitHub source ↗</a>` : ""}
       <button class="btn ${isFav(id) ? "favbtn" : ""}" data-act="fav" data-id="${esc(id)}" data-m="1">${isFav(id) ? "♥ Favorite" : "♡ Favorite"}</button>
       <button class="btn" data-act="update" data-id="${esc(id)}">✏️ Update this recipe</button>
-      ${r.custom ? `<button class="btn ghost" data-act="delcustom" data-id="${esc(id)}">Delete</button>` : ""}</div>
+      ${r.custom ? `<button class="btn" data-act="editcustom" data-id="${esc(id)}">Edit</button><button class="btn ghost" data-act="delcustom" data-id="${esc(id)}">Delete</button>` : ""}</div>
     ${n.cooks.length || n.tips?.length || Object.keys(n.swaps || {}).length ? `<div class="mine">
       <b>Your version</b>${avgRating(id) ? ` · ⭐ ${avgRating(id).toFixed(1)}` : ""} · cooked ${n.cooks.length}×${n.lunch ? ` · leftovers: ${esc(n.lunch)}` : ""}${n.again ? ` · again: ${esc(n.again)}` : ""}
       ${Object.keys(n.swaps || {}).length ? `<div class="small">Swaps: ${Object.entries(n.swaps).map(([k, v]) => `${esc(k)} → ${v ? esc(v) : "<i>skip</i>"}`).join(" · ")}</div>` : ""}
@@ -871,29 +871,95 @@ function updateRecipe(id, planDate) {
     },
   });
 }
-function newRecipe() {
-  wizard({
-    title: "My own recipe",
-    steps: [
-      { id: "name", type: "text", q: "What's the dish called?", optional: false, ph: "e.g. Mum's tomato egg noodles" },
-      { id: "url", type: "text", q: "Link to the recipe (optional)", ph: "https://… (a HowToCook page, blog, video)" },
-      { id: "cat", type: "choice", q: "What kind of dish is it?", optional: false, options: ["Meat", "Seafood", "Veg", "Soup", "Staple", "Breakfast", "Dessert"].map((v) => ({ v, l: v })) },
-      { id: "protein", type: "choice", q: "Main protein?", options: ["Chicken", "Pork", "Beef", "Lamb", "Seafood", "Tofu/Egg", "Veg"].map((v) => ({ v, l: v })) },
-      { id: "ings", type: "text", long: true, q: "Main ingredients?", optional: false, help: "Comma separated. English or 中文. Add (optional) after extras.", ph: "chicken thigh, potato, 青椒, garlic, ginger" },
-      { id: "serves", type: "number", q: "How many servings does it make?", quick: [2, 3, 4, 6], unit: "serves" },
-      { id: "stars", type: "choice", q: "How hard is it?", options: [1, 2, 3, 4, 5].map((v) => ({ v: String(v), l: "★".repeat(v) })) },
-      { id: "desc", type: "text", long: true, q: "Short description or key steps (optional)" },
-    ],
-    onDone: async (x) => {
-      const ings = x.ings.split(/[,，、\n]/).map((s) => s.trim()).filter(Boolean).map((s) => {
-        const opt = /\(optional\)|（可选）|可选/i.test(s);
-        let n = s.replace(/\(optional\)|（可选）|可选/gi, "").trim();
-        const zh = ALIAS[n.toLowerCase()]; return { n: zh || n, opt };
-      });
-      DB.custom.push({ id: "custom:" + uid(), name: x.name, url: x.url || "", cat: x.cat, protein: x.protein || "Veg", ings, serves: x.serves || null, stars: +x.stars || 0, desc: x.desc || "", table: [], kcal: null });
-      await save("custom"); render(); toast("Saved to your recipes");
-    },
-  });
+// ---------- add a recipe: paste a link / video / text → draft → check → save ----------
+const CATS = ["Meat", "Seafood", "Veg", "Soup", "Staple", "Breakfast", "Dessert", "Drink", "Sauce"];
+const PROTS = ["Chicken", "Pork", "Beef", "Lamb", "Seafood", "Tofu/Egg", "Veg"];
+async function newRecipe(prefill = "") {
+  openModal(`<h2>Add a recipe</h2>
+    <p class="small muted">Paste a recipe website link, a video link (YouTube, Bilibili, TikTok, Instagram…), or the recipe text itself. You check everything before it's saved.</p>
+    <textarea id="impSrc" rows="5" placeholder="https://www.recipetineats.com/…   or   https://youtu.be/…   or paste the recipe text">${esc(prefill)}</textarea>
+    <div id="impStatus" class="small muted" style="margin:6px 0 10px">Checking the AI helper…</div>
+    <div class="row"><button class="btn primary" data-act="impgo">Import</button><button class="btn" data-act="impblank">Type it myself</button></div>`);
+  $("#impSrc").focus();
+  try {
+    const st = await fetch("/api/import/status").then((r) => r.json());
+    const el = $("#impStatus"); if (!el) return;
+    el.innerHTML = st.ai ? `✓ AI helper ready (${esc(st.model)}, runs on the Mac) — links, videos and pasted text all work.`
+      : `AI helper is off — recipe websites still work; videos and pasted text need Ollama running on the Mac.`;
+  } catch { }
+  if (prefill) importGo();
+}
+async function importGo() {
+  const src = $("#impSrc")?.value.trim(); if (!src) return toast("Paste a link or text first");
+  const btn = $('[data-act="impgo"]'), el = $("#impStatus");
+  btn.disabled = true;
+  const isVid = /youtu|bilibili|b23\.tv|tiktok|douyin|instagram|xhslink|xiaohongshu|vimeo|fb\.watch|facebook/i.test(src);
+  const t0 = Date.now();
+  const tick = setInterval(() => { if (el) el.textContent = `Reading ${isVid ? "the video's description and captions" : /^https?:/.test(src) ? "the page" : "your text"}… ${Math.round((Date.now() - t0) / 1000)}s (AI can take up to a minute)`; }, 500);
+  try {
+    const res = await fetch("/api/import", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ src }) });
+    const d = await res.json();
+    if (!res.ok) throw new Error(d.error || "Import failed");
+    draftForm(d);
+  } catch (e) {
+    if ($("#impStatus")) { el.innerHTML = `<span style="color:var(--bad)">${esc(e.message)}</span>`; btn.disabled = false; }
+  } finally { clearInterval(tick); }
+}
+const blankIng = () => ({ en: "", zh: "", qty: "", unit: "", optional: false, seasoning: false });
+function draftFromCustom(c) {
+  return { edit: c.id, name_en: c.en || c.name, name_zh: c.en ? c.name : "", category: c.cat, protein: c.protein, difficulty: c.stars, serves: c.serves || 0,
+    summary: c.desc, img: c.img || "", url: c.url || "", steps: c.stepList || [],
+    ingredients: c.ingList || c.ings.map((i) => ({ ...blankIng(), en: label(i.n).split(" · ")[0], zh: HAS_ZH.test(i.n) ? i.n : "", optional: i.opt })) };
+}
+function ingRowHtml(i) {
+  return `<tr class="ingrow"><td><input data-f="qty" value="${esc(i.qty)}" style="width:52px"></td><td><input data-f="unit" value="${esc(i.unit)}" style="width:58px"></td>
+    <td><input data-f="en" value="${esc(i.en)}" placeholder="English"></td><td><input data-f="zh" value="${esc(i.zh)}" placeholder="中文"></td>
+    <td><label title="Cupboard seasoning (salt, oil, soy…) — doesn't count as missing"><input type="checkbox" data-f="seasoning" ${i.seasoning ? "checked" : ""}>🧂</label>
+    <label title="Optional"><input type="checkbox" data-f="optional" ${i.optional ? "checked" : ""}>opt</label></td>
+    <td><button class="btn ghost sm" data-act="ingrm">✕</button></td></tr>`;
+}
+function draftForm(d) {
+  const sel = (id, opts, v) => `<select id="${id}">${opts.map((o) => `<option ${o === v ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+  const via = d.via ? `<div class="banner ${d.ai ? "good" : "info"} small">Read from the ${esc(d.via)}${d.ai ? " and tidied by the AI helper" : " (AI helper off — names not translated, check the guesses)"}. Check it over, then save.</div>` : "";
+  openModal(`<h2>${d.edit ? "Edit recipe" : "Check the recipe"}</h2>${via}
+    <div class="row"><input id="dEn" class="grow" placeholder="Name (English)" value="${esc(d.name_en)}"><input id="dZh" class="grow" placeholder="名字（中文）" value="${esc(d.name_zh)}"></div>
+    <div class="row" style="margin-top:8px">${sel("dCat", CATS, d.category || "Meat")} ${sel("dProt", PROTS, d.protein || "Veg")}
+      <select id="dStars">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${n === (d.difficulty || 2) ? "selected" : ""}>${"★".repeat(n)}</option>`).join("")}</select>
+      <label class="small">Serves <input id="dServes" type="number" min="1" max="20" value="${d.serves || ""}" placeholder="?" style="width:60px"></label></div>
+    <div class="row" style="margin-top:8px;align-items:flex-start">${d.img ? `<img id="dImgPrev" src="${esc(d.img)}" alt="" style="width:96px;height:72px;object-fit:cover;border-radius:8px">` : ""}
+      <textarea id="dDesc" class="grow" rows="2" placeholder="One-line description">${esc(d.summary)}</textarea></div>
+    <input type="hidden" id="dImg" value="${esc(d.img)}">
+    <h3 style="margin-top:14px">Ingredients</h3>
+    <p class="small muted">Amounts are for the servings above and scale on the shopping list. 🧂 = cupboard seasoning, opt = optional.</p>
+    <div style="overflow-x:auto"><table id="dIngs"><tr><th>Qty</th><th>Unit</th><th>English</th><th>中文</th><th></th><th></th></tr>
+      ${(d.ingredients.length ? d.ingredients : [blankIng()]).map(ingRowHtml).join("")}</table></div>
+    <button class="btn sm" data-act="ingadd" style="margin-top:6px">+ Ingredient</button>
+    <h3 style="margin-top:14px">Steps <span class="small muted">(one per line)</span></h3>
+    <textarea id="dSteps" rows="8">${esc((d.steps || []).join("\n"))}</textarea>
+    <input id="dUrl" type="url" placeholder="Source link (optional)" value="${esc(d.url)}" style="width:100%;margin-top:8px">
+    <div class="row" style="margin-top:14px"><button class="btn primary" data-act="draftsave" data-edit="${esc(d.edit || "")}">${d.edit ? "Save changes" : "Save to my recipes"}</button>
+      ${d.edit ? "" : `<button class="btn ghost" data-act="newrecipe">← Start over</button>`}</div>`);
+}
+async function draftSave(editId) {
+  const v = (id) => $("#" + id).value.trim();
+  const ingList = [...document.querySelectorAll("#dIngs .ingrow")].map((tr) => {
+    const o = {}; tr.querySelectorAll("[data-f]").forEach((f) => (o[f.dataset.f] = f.type === "checkbox" ? f.checked : f.value.trim())); return o;
+  }).filter((i) => i.en || i.zh);
+  const en = v("dEn"), zh = v("dZh");
+  if (!en && !zh) return toast("Give it a name");
+  if (!ingList.length) return toast("Add at least one ingredient");
+  const stepList = $("#dSteps").value.split("\n").map((s) => s.replace(/^\s*(\d+[.)、]|[-*•])\s*/, "").trim()).filter(Boolean);
+  const c = {
+    id: editId || "custom:" + uid(), name: zh || en, en: zh && en ? en : "", url: v("dUrl"), cat: v("dCat"), protein: v("dProt"),
+    stars: +v("dStars") || 2, serves: +v("dServes") || null, desc: v("dDesc"), img: v("dImg"), kcal: null,
+    ings: ingList.map((i) => ({ n: i.zh || ALIAS[i.en.toLowerCase()] || i.en, opt: i.optional || i.seasoning })),
+    table: ingList.filter((i) => i.qty || i.unit).map((i) => [i.en || i.zh, i.qty, i.unit]),
+    steps: stepList.map((s, k) => `${k + 1}. ${s}`).join("\n"), ingList, stepList,
+  };
+  const at = DB.custom.findIndex((x) => x.id === c.id);
+  if (at >= 0) DB.custom[at] = c; else DB.custom.push(c);
+  await save("custom"); closeModal(); render(); openRecipe(c.id);
+  toast(editId ? "Saved" : "Added to your recipes");
 }
 
 // ---------- pets ----------
@@ -1158,6 +1224,12 @@ document.addEventListener("click", async (e) => {
     }
     case "delcustom": if (confirm("Delete this recipe?")) { DB.custom = DB.custom.filter((c) => c.id !== id); await save("custom"); closeModal(); render(); } break;
     case "newrecipe": newRecipe(); break;
+    case "impgo": importGo(); break;
+    case "impblank": draftForm({ name_en: "", name_zh: "", ingredients: [], steps: [], summary: "", img: "", url: /^https?:/.test($("#impSrc")?.value.trim()) ? $("#impSrc").value.trim() : "" }); break;
+    case "ingadd": $("#dIngs").insertAdjacentHTML("beforeend", ingRowHtml(blankIng())); $("#dIngs .ingrow:last-child input").focus(); break;
+    case "ingrm": t.closest("tr").remove(); break;
+    case "draftsave": draftSave(t.dataset.edit); break;
+    case "editcustom": draftForm(draftFromCustom(DB.custom.find((c) => c.id === id))); break;
     case "more": ui.limit += 40; render(); break;
     case "rail": ui[t.dataset.k] = v || ""; ui.limit = 40; render(); break;
     case "railclear": Object.assign(ui, { quick: "", cat: "", prot: "", stars: "", kcal: "", ing: "", limit: 40 }); render(); break;
@@ -1286,4 +1358,9 @@ $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button
 // another phone may have changed things — refresh when tab regains focus (unless a dialog is open)
 document.addEventListener("visibilitychange", async () => { if (!document.hidden && $("#modal").hidden) { await load(); render(); } });
 
-load().then(() => { render(); autoTranslate(); }).catch((err) => { $("#view").innerHTML = `<p class="pad">Could not load: ${esc(err.message)}</p>`; });
+load().then(() => {
+  render(); autoTranslate();
+  // iPhone share sheet / bookmarklet: /?add=<link or text> opens the import box ready to go
+  const add = new URLSearchParams(location.search).get("add");
+  if (add) { history.replaceState(null, "", location.pathname); TAB = "recipes"; render(); newRecipe(add); }
+}).catch((err) => { $("#view").innerHTML = `<p class="pad">Could not load: ${esc(err.message)}</p>`; });

@@ -15,6 +15,8 @@ from html.parser import HTMLParser
 from urllib.parse import parse_qs, unquote, urlencode, urlparse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
+import importer
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC = os.path.join(ROOT, "static")
 DATA = os.path.join(ROOT, "data")
@@ -26,6 +28,7 @@ AMAP = os.path.join(DATA, "aiursoft.json")
 TCACHE = os.path.join(DATA, "translations")
 AIUR = "https://howtocook.aiursoft.com"
 WORDS = os.path.join(DATA, "words.json")
+IMG = os.path.join(DATA, "img")  # photos saved by recipe import
 CJK = __import__("re").compile(r"[\u4e00-\u9fff]")
 # MyMemory sometimes answers in traditional characters; recipes use simplified.
 T2S = str.maketrans("針麵雞豬魚蝦蔥薑蘿蔔醬蘋筍紅黃綠湯餅糧檸鳳貝鴨鵝塊條絲顆醃燒滷餃餛飩蠔煉乾鮮蘆荳腸鹹葉蓮藍莧蕎續隨欖麥處頭雜種類層與帶鹽釀蠣鮭鱈鰻鱸鯖鮪歐義豐濃煙燻臘雙雲櫻實糰粿甕菸鍋骨麩蘭莓漿凍熱涼醃腎臟雜蛋鮑參魷螺蛤鱗鯉鯽鵪鶉蘿",
@@ -173,7 +176,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         # app files: always revalidate so phones pick up updates
-        if not self.path.startswith(("/repo/", "/api/")):
+        if not getattr(self, "path", "").startswith(("/repo/", "/api/")):
             self.send_header("Cache-Control", "no-cache")
         super().end_headers()
 
@@ -191,6 +194,10 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         u = urlparse(self.path)
+        if u.path.startswith("/img/"):
+            return self.send_img(unquote(u.path[len("/img/"):]))
+        if u.path == "/api/import/status":
+            return self.send_json({"ai": importer.ollama_ok(), "model": importer.MODEL, "video": bool(importer.tool("yt-dlp"))})
         if u.path.startswith("/repo/"):
             return self.send_repo_file(unquote(u.path[len("/repo/"):]))
         if u.path == "/api/translate":
@@ -226,6 +233,35 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             return self.wfile.write(body)
         return super().do_GET()
+
+    def send_img(self, name):
+        full = os.path.join(IMG, os.path.basename(name))
+        ext = os.path.splitext(full)[1].lower()
+        if ext not in IMG_TYPES or not os.path.isfile(full):
+            return self.send_json({"error": "not found"}, 404)
+        with open(full, "rb") as fh:
+            body = fh.read()
+        self.send_response(200)
+        self.send_header("Content-Type", IMG_TYPES[ext])
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "max-age=31536000, immutable")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_POST(self):
+        if self.path != "/api/import":  # {"src": "<link or pasted text>"} → recipe draft
+            return self.send_json({"error": "bad path"}, 404)
+        n = int(self.headers.get("Content-Length", "0"))
+        try:
+            src = str(json.loads(self.rfile.read(min(n, 100_000)).decode("utf-8")).get("src", ""))
+        except ValueError:
+            return self.send_json({"error": "bad json"}, 400)
+        try:
+            return self.send_json(importer.run(src, IMG))
+        except importer.ImportError_ as e:
+            return self.send_json({"error": str(e)}, 422)
+        except Exception as e:
+            return self.send_json({"error": f"Import failed: {e}"}, 502)
 
     def send_repo_file(self, rel):
         full = os.path.realpath(os.path.join(REPO, rel))
